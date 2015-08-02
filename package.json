@@ -1,0 +1,21 @@
+{
+  "name": "debug-workbench-core-components",
+  "version": "0.1.0",
+  "description": "Core Debug Workbench web components.",
+  "keywords": ["debug", "debugger"],
+  "repository": "https://github.com/debugworkbench/core-components",
+  "author": "Vadim Macagon",
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "scripts": {
+    "preinstall": "",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-vulcanize": "^1.0.0"
+  }
+}

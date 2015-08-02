@@ -1,0 +1,30 @@
+{
+  "name": "debug-workbench-core-components",
+  "version": "0.1.0",
+  "authors": [
+    "Vadim Macagon <vadim.macagon@gmail.com>"
+  ],
+  "description": "Core Debug Workbench web components.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "debugger",
+    "debug",
+    "debug-workbench"
+  ],
+  "license": "https://github.com/debugworkbench/core-components/blob/master/LICENSE",
+  "homepage": "https://github.com/debugworkbench/core-components/",
+  "ignore": [
+    "/.*"
+  ],
+  "dependencies": {
+    "font-roboto": "debugworkbench/font-roboto#offline-fonts",
+    "polymer": "Polymer/polymer#^1.0.0",
+    "paper-input": "PolymerElements/paper-input#~1.0.3",
+    "paper-button": "PolymerElements/paper-button#~1.0.3"
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "font-roboto": "offline-fonts"
+  }
+}
