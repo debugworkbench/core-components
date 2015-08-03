@@ -1,6 +1,18 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
+    'tsd': {
+      lib: {
+        options: {
+          command: 'reinstall',
+          latest: true,
+          config: 'conf/tsd-lib.json',
+          opts: {
+            // props from tsd.Options
+          }
+        }
+      }
+    },
     'vulcanize': {
       default: {
         options: {
@@ -13,6 +25,7 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-tsd');
   grunt.loadNpmTasks('grunt-vulcanize');
 
   grunt.registerTask('default', ['vulcanize']);
