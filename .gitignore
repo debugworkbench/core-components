@@ -2,3 +2,5 @@
 /node_modules/
 /dependencies_bundle.html
 /dependencies_bundle.js
+*.js
+*.map
