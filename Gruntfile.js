@@ -41,9 +41,12 @@ module.exports = function(grunt) {
     'vulcanize': {
       default: {
         options: {
+          // extract all inline JavaScript into a separate file to work around Atom's
+          // Content Security Policy
           csp: 'dependencies_bundle.js'
         },
         files: {
+          // output: input
           'dependencies_bundle.html': 'dependencies.html'
         }
       }
