@@ -18,6 +18,7 @@
     "/.*"
   ],
   "dependencies": {
+    "polymer-ts-decorators": "enlight/polymer-ts-decorators",
     "font-roboto": "debugworkbench/font-roboto#offline-fonts",
     "polymer": "Polymer/polymer#^1.0.0",
     "paper-input": "PolymerElements/paper-input#~1.0.3",

@@ -1,6 +1,14 @@
+var path = require('path');
+
 module.exports = function(grunt) {
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
+    'tsc': {
+      options: {
+        tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc')
+      },
+      default: {}
+    },
     'tsd': {
       lib: {
         options: {
@@ -25,6 +33,7 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-tsc');
   grunt.loadNpmTasks('grunt-tsd');
   grunt.loadNpmTasks('grunt-vulcanize');
 

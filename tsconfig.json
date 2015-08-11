@@ -1,0 +1,23 @@
+{
+    "version": "1.5.3",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "noLib": true,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "experimentalDecorators": true
+    },
+    "filesGlob": [
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./typings/lib.es6.d.ts",
+        "./typings/polymer/polymer.d.ts",
+        "./bower_components/polymer-ts-decorators/lib/decorators.d.ts",
+        "./debug-configuration/debug-configuration.ts"
+    ]
+}
