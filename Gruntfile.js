@@ -3,6 +3,23 @@ var path = require('path');
 module.exports = function(grunt) {
   grunt.initConfig({
     'pkg': grunt.file.readJSON('package.json'),
+    'dtsGenerator': {
+      options: {
+        baseDir: './',
+        name: 'core-components',
+        out: './index.d.ts',
+        excludes: [
+          'typings/**',
+          '!typings/lib.ext.d.ts',
+          'bower_components/**'
+        ]
+      },
+      default: {
+        src: [
+          'debug-configuration/debug-configuration.ts'
+        ]
+      }
+    },
     'tsc': {
       options: {
         tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc')
@@ -35,6 +52,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-tsc');
   grunt.loadNpmTasks('grunt-tsd');
+  grunt.loadNpmTasks('dts-generator');
   grunt.loadNpmTasks('grunt-vulcanize');
 
   grunt.registerTask('default', ['vulcanize']);
