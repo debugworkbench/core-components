@@ -13,7 +13,9 @@
     "preinstall": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "polymer-ts-decorators": "enlight/polymer-ts-decorators"
+  },
   "devDependencies": {
     "dts-generator": "enlight/dts-generator#ts-next",
     "grunt": "^0.4.5",
