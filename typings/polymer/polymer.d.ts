@@ -206,7 +206,7 @@ declare var Polymer: {
    * @param <T> Type of element the constructor should create.
    * @returns Constructor that can be invoked to create a new element instance.
    */
-  <T>(elementDefinition: polymer.IElement): T;
+  <T>(elementDefinition: Object): T;
   /**
    * Creates an element constructor but doesn't register it with the document.
    * Use `document.registerElement` to register the new element constructor.
@@ -214,7 +214,7 @@ declare var Polymer: {
    * @param <T> Type of element the constructor should create.
    * @returns Constructor that can be invoked to create a new element instance.
    */
-  Class<T>(elementDefinition: polymer.IElement): T;
+  Class<T>(elementDefinition: Object): T;
 
   dom: polymer.DomApi_Static;
   Base: polymer.Base;
