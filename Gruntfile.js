@@ -6,12 +6,12 @@ module.exports = function(grunt) {
     'dtsGenerator': {
       options: {
         baseDir: './',
-        name: 'core-components',
+        name: 'debug-workbench-core-components',
         out: './index.d.ts',
         excludes: [
           'typings/**',
           '!typings/lib.ext.d.ts',
-          'bower_components/**'
+          'node_modules/**'
         ]
       },
       default: {

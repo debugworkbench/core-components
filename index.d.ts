@@ -6,7 +6,7 @@
 declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
 	export interface IAuthorProperty {
 	    name: string;
-	    image: string;
+	    age: number;
 	}
 	/**
 	 * Base behavior of the DebugConfigurationElement.
@@ -23,8 +23,5 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 	    open(): void;
 	    close(): void;
 	}
-}
 
-declare module 'debug-workbench-core-components' {
-	export * from 'debug-workbench-core-components/debug-configuration/debug-configuration';
 }
