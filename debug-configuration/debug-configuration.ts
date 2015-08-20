@@ -45,6 +45,20 @@ export class DebugConfigurationElement {
   detached(): void {
     console.log("I've been detached!");
   }
+  
+  open(): void {
+    const dialog = this.base.$.dialog;
+    if (dialog) {
+      dialog.open();
+    }
+  }
+  
+  close(): void {
+    const dialog = this.base.$.dialog;
+    if (dialog) {
+      dialog.close();
+    }
+  }
 }
 
 // Don't register the element on import since in TypeScript import statements can only appear

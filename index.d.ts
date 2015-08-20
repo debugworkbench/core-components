@@ -12,12 +12,16 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 	 * Base behavior of the DebugConfigurationElement.
 	 */
 	export class DebugConfigurationElement {
+	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
+	    base: polymer.Base;
 	    fancy: boolean;
 	    author: IAuthorProperty;
 	    somefunc(): void;
 	    ready(): void;
 	    attached(): void;
 	    detached(): void;
+	    open(): void;
+	    close(): void;
 	}
 }
 

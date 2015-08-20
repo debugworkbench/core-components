@@ -18,18 +18,29 @@ Example:
 @hero hero.svg
 -->
 <dom-module id="debug-configuration">
-
-  <style>
-    :host {
-      display: block;
-      box-sizing: border-box;
-    }
-  </style>
-
   <template>
-    <h2>Debug Configuration</h2>
-    <paper-input label="Executable"></paper-input>
-    <paper-button>Browse</paper-button>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+      
+      #dialog {
+        @apply(--debug-workbench-debug-configuration-dialog);
+      }
+    </style>
+  
+    <paper-dialog id="dialog">
+      <h2>Debug Configuration</h2>
+      <div>
+        <paper-input label="Executable"></paper-input>
+        <paper-button>Browse</paper-button>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>OK</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
 </dom-module>

@@ -64,7 +64,7 @@ declare module polymer {
      * Any node specified in the element's template with an `id` is stored in the auto-generated
      * map, e.g. a node with an `id` of `name` can be retrived via `this.$.name`.
      */
-    $: HTMLElement;
+    $: any;
 
     // Property metadata functions
 

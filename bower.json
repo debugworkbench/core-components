@@ -23,7 +23,8 @@
     "paper-input": "enlight/paper-input#no-deep",
     "paper-button": "PolymerElements/paper-button#^1.0.3",
     "iron-autogrow-textarea": "enlight/iron-autogrow-textarea#no-deep",
-    "paper-styles": "enlight/paper-styles#no-deep"
+    "paper-styles": "enlight/paper-styles#no-deep",
+    "paper-dialog": "enlight/paper-dialog#no-deep"
   },
   "devDependencies": {},
   "resolutions": {
