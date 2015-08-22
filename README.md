@@ -1,5 +1,13 @@
 # core-components
-Core Debug Workbench web components shared by the various integrations.
+Core Debug Workbench web components shared by the various integrations. These components only work
+in Electron-based applications.
+
+Usage
+=====
+
+Prerequisites
+-------------
+- [Electron](https://github.com/atom/electron/)
 
 Development
 ===========
