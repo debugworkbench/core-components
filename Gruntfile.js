@@ -16,7 +16,8 @@ module.exports = function(grunt) {
       },
       default: {
         src: [
-          'debug-configuration/debug-configuration.ts'
+          'debug-configuration/debug-configuration.ts',
+          'file-input/file-input.ts'
         ]
       }
     },

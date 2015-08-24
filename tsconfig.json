@@ -15,13 +15,15 @@
         "./typings/**/*.d.ts",
         "!./node_modules/**",
         "./node_modules/polymer-ts-decorators/lib/*.d.ts",
-        "./debug-configuration/**/*.ts"
+        "./debug-configuration/**/*.ts",
+        "./file-input/**/*.ts"
     ],
     "files": [
         "./typings/lib-tsd.d.ts",
         "./typings/lib.es6.d.ts",
         "./typings/polymer/polymer.d.ts",
         "./node_modules/polymer-ts-decorators/lib/decorators.d.ts",
-        "./debug-configuration/debug-configuration.ts"
+        "./debug-configuration/debug-configuration.ts",
+        "./file-input/file-input.ts"
     ]
 }

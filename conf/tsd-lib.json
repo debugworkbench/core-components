@@ -4,5 +4,15 @@
   "ref": "master",
   "path": "../typings",
   "bundle": "../typings/lib-tsd.d.ts",
-  "installed": {}
+  "installed": {
+    "github-electron/github-electron.d.ts": {
+      "commit": "8f081073e6cb416f901b272810d8b04d6e01c9e0"
+    },
+    "node/node.d.ts": {
+      "commit": "8f081073e6cb416f901b272810d8b04d6e01c9e0"
+    },
+    "github-electron/github-electron-renderer.d.ts": {
+      "commit": "8f081073e6cb416f901b272810d8b04d6e01c9e0"
+    }
+  }
 }
