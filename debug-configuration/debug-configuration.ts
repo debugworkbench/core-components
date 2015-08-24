@@ -1,9 +1,4 @@
 import * as pd from 'polymer-ts-decorators';
-
-export interface IAuthorProperty {
-  name: string;
-  age: number;
-}
 import { FileInputElement } from '../file-input/file-input';
 
 /**
@@ -24,27 +19,8 @@ export class DebugConfigurationElement {
     return <any> this;
   }
   
-  @pd.property({ type: Boolean })
-  fancy: boolean;
-  
-  @pd.property({
-    type: Object,
-    value: () => {
-      return {
-        name:  'John Smith',
-        age: 35
-      };
-    }
-  })
-  author: IAuthorProperty;
-
-  somefunc(): void {
-    console.log(this.author.name);
-  }
-
   ready(): void {
-    console.log("I'm ready!");
-    this.somefunc();
+    
   }
 
   attached(): void {
@@ -69,8 +45,3 @@ export class DebugConfigurationElement {
     }
   }
 }
-
-// Don't register the element on import since in TypeScript import statements can only appear
-// at the top level file scope not in function scope, and the html template must be loaded via
-// HTML import before the element can be created and registered via Polymer().
-//Polymer(DebugConfigurationElement.prototype);

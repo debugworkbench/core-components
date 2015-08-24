@@ -3,20 +3,26 @@
 //
 
 
-declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
-	export interface IAuthorProperty {
-	    name: string;
-	    age: number;
+declare module 'debug-workbench-core-components/file-input/file-input' {
+	export class FileInputElement {
+	    static register(): typeof FileInputElement;
+	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
+	    base: polymer.Base;
+	    inputLabel: string;
+	    filePath: string;
+	    openBrowseDialog(): void;
 	}
+
+}
+
+declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
 	/**
 	 * Base behavior of the DebugConfigurationElement.
 	 */
 	export class DebugConfigurationElement {
+	    static register(): typeof DebugConfigurationElement;
 	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
 	    base: polymer.Base;
-	    fancy: boolean;
-	    author: IAuthorProperty;
-	    somefunc(): void;
 	    ready(): void;
 	    attached(): void;
 	    detached(): void;
