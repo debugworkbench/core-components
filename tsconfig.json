@@ -16,7 +16,8 @@
         "!./node_modules/**",
         "./node_modules/polymer-ts-decorators/lib/*.d.ts",
         "./debug-configuration/**/*.ts",
-        "./file-input/**/*.ts"
+        "./file-input/**/*.ts",
+        "./register-element/**/*.ts"
     ],
     "files": [
         "./typings/lib-tsd.d.ts",
@@ -24,6 +25,7 @@
         "./typings/polymer/polymer.d.ts",
         "./node_modules/polymer-ts-decorators/lib/decorators.d.ts",
         "./debug-configuration/debug-configuration.ts",
-        "./file-input/file-input.ts"
+        "./file-input/file-input.ts",
+        "./register-element/register-element.ts"
     ]
 }

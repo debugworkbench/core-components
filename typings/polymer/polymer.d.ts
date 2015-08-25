@@ -59,6 +59,8 @@ declare module polymer {
   }
 
   interface Base extends HTMLElement {
+    /** The root of the local DOM. */
+    root: HTMLElement;
     /**
      * Returns a map of statically created nodes in the local DOM.
      * Any node specified in the element's template with an `id` is stored in the auto-generated

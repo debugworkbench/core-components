@@ -30,4 +30,14 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 	    close(): void;
 	}
 
+declare module 'debug-workbench-core-components/register-element/register-element' {
+	/** Custom element that loads and registers a custom element from a CommonJS module. */
+	export class RegisterElementElement {
+	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
+	    base: polymer.Base;
+	    path: string;
+	    ready(): void;
+	}
+	export function register(): typeof RegisterElementElement;
+
 }
