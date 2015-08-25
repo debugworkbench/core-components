@@ -5,13 +5,13 @@
 
 declare module 'debug-workbench-core-components/file-input/file-input' {
 	export class FileInputElement {
-	    static register(): typeof FileInputElement;
 	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
 	    base: polymer.Base;
 	    inputLabel: string;
 	    filePath: string;
 	    openBrowseDialog(): void;
 	}
+	export function register(): typeof FileInputElement;
 
 }
 
@@ -20,7 +20,6 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 	 * Base behavior of the DebugConfigurationElement.
 	 */
 	export class DebugConfigurationElement {
-	    static register(): typeof DebugConfigurationElement;
 	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
 	    base: polymer.Base;
 	    ready(): void;
@@ -29,6 +28,9 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 	    open(): void;
 	    close(): void;
 	}
+	export function register(): typeof DebugConfigurationElement;
+
+}
 
 declare module 'debug-workbench-core-components/register-element/register-element' {
 	/** Custom element that loads and registers a custom element from a CommonJS module. */
