@@ -1,4 +1,4 @@
-declare module polymer {
+declare namespace polymer {
   /** Used to define a property on a Polymer element. */
   interface IProperty<T> {
     /** Constructor, one of `Boolean`, `Date`, `Number`, `String`, `Array`, or `Object`. */
@@ -199,25 +199,27 @@ declare module polymer {
     (node: Event): EventApi;
     flush(): void;
   }
+  
+  interface Global {
+    /**
+     * Creates an element constructor and registers it with the document.
+     *
+     * @param <T> Type of element the constructor should create.
+     * @returns Constructor that can be invoked to create a new element instance.
+     */
+    <T>(elementDefinition: Object): T;
+    /**
+     * Creates an element constructor but doesn't register it with the document.
+     * Use `document.registerElement` to register the new element constructor.
+     *
+     * @param <T> Type of element the constructor should create.
+     * @returns Constructor that can be invoked to create a new element instance.
+     */
+    Class<T>(elementDefinition: Object): T;
+
+    dom: DomApi_Static;
+    Base: Base;
+  }
 }
 
-declare var Polymer: {
-  /**
-   * Creates an element constructor and registers it with the document.
-   *
-   * @param <T> Type of element the constructor should create.
-   * @returns Constructor that can be invoked to create a new element instance.
-   */
-  <T>(elementDefinition: Object): T;
-  /**
-   * Creates an element constructor but doesn't register it with the document.
-   * Use `document.registerElement` to register the new element constructor.
-   *
-   * @param <T> Type of element the constructor should create.
-   * @returns Constructor that can be invoked to create a new element instance.
-   */
-  Class<T>(elementDefinition: Object): T;
-
-  dom: polymer.DomApi_Static;
-  Base: polymer.Base;
-}
+declare var Polymer: polymer.Global;
