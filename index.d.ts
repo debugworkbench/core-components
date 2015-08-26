@@ -3,6 +3,20 @@
 //
 
 
+declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
+	/**
+	 * Base behavior of the DebugConfigurationElement.
+	 */
+	export class DebugConfigurationElement {
+	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
+	    base: polymer.Base;
+	    open(): void;
+	    close(): void;
+	}
+	export function register(): typeof DebugConfigurationElement;
+
+}
+
 declare module 'debug-workbench-core-components/file-input/file-input' {
 	export class FileInputElement {
 	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
@@ -12,23 +26,6 @@ declare module 'debug-workbench-core-components/file-input/file-input' {
 	    openBrowseDialog(): void;
 	}
 	export function register(): typeof FileInputElement;
-
-}
-
-declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
-	/**
-	 * Base behavior of the DebugConfigurationElement.
-	 */
-	export class DebugConfigurationElement {
-	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
-	    base: polymer.Base;
-	    ready(): void;
-	    attached(): void;
-	    detached(): void;
-	    open(): void;
-	    close(): void;
-	}
-	export function register(): typeof DebugConfigurationElement;
 
 }
 

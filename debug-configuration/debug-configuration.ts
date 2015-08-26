@@ -1,5 +1,13 @@
 import * as pd from 'polymer-ts-decorators';
 
+interface ILocalDOM {
+  dialog: PolymerElements.PaperDialog;
+}
+
+function $(element: any): ILocalDOM {
+  return element.$;
+}
+
 /**
  * Base behavior of the DebugConfigurationElement.
  */
@@ -9,28 +17,16 @@ export class DebugConfigurationElement {
   get base(): polymer.Base {
     return <any> this;
   }
-  
-  ready(): void {
-    
-  }
 
-  attached(): void {
-    console.log("I've been attached!");
-  }
-
-  detached(): void {
-    console.log("I've been detached!");
-  }
-  
   open(): void {
-    const dialog = this.base.$.dialog;
+    const dialog = $(this).dialog;
     if (dialog) {
       dialog.open();
     }
   }
   
   close(): void {
-    const dialog = this.base.$.dialog;
+    const dialog = $(this).dialog;
     if (dialog) {
       dialog.close();
     }
