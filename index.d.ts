@@ -17,6 +17,15 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 
 }
 
+declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
+	export class DebugToolbarElement {
+	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
+	    base: polymer.Base;
+	}
+	export function register(): typeof DebugToolbarElement;
+
+}
+
 declare module 'debug-workbench-core-components/file-input/file-input' {
 	export class FileInputElement {
 	    /** The returned object will only be valid after the element has been upgraded to a custom element. */

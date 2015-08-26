@@ -16,6 +16,7 @@
         "!./node_modules/**",
         "./node_modules/polymer-ts-decorators/lib/*.d.ts",
         "./debug-configuration/**/*.ts",
+        "./debug-toolbar/**/*.ts",
         "./file-input/**/*.ts",
         "./register-element/**/*.ts"
     ],
@@ -26,6 +27,7 @@
         "./typings/polymer-elements/paper-dialog.d.ts",
         "./node_modules/polymer-ts-decorators/lib/decorators.d.ts",
         "./debug-configuration/debug-configuration.ts",
+        "./debug-toolbar/debug-toolbar.ts",
         "./file-input/file-input.ts",
         "./register-element/register-element.ts"
     ]

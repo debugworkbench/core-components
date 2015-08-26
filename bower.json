@@ -19,17 +19,21 @@
   ],
   "dependencies": {
     "font-roboto": "debugworkbench/font-roboto#offline-fonts",
-    "polymer": "Polymer/polymer#^1.0.0",
-    "paper-input": "enlight/paper-input#no-deep",
-    "paper-button": "PolymerElements/paper-button#^1.0.3",
     "iron-autogrow-textarea": "enlight/iron-autogrow-textarea#no-deep",
+    "paper-button": "PolymerElements/paper-button#^1.0.3",
+    "paper-dialog": "enlight/paper-dialog#no-deep",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.2",
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.3",
+    "paper-input": "enlight/paper-input#no-deep",
     "paper-styles": "enlight/paper-styles#no-deep",
-    "paper-dialog": "enlight/paper-dialog#no-deep"
+    "paper-toolbar": "PolymerElements/paper-toolbar#~1.0.4",
+    "polymer": "Polymer/polymer#1.1.0"
   },
   "devDependencies": {},
   "resolutions": {
     "font-roboto": "offline-fonts",
     "iron-autogrow-textarea": "no-deep",
-    "paper-styles": "no-deep"
+    "paper-styles": "no-deep",
+    "paper-input": "no-deep"
   }
 }
