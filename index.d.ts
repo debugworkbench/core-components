@@ -17,10 +17,24 @@ declare module 'debug-workbench-core-components/debug-configuration/debug-config
 
 }
 
+declare module 'debug-workbench-core-components/lib/disposable-dom-event-listener' {
+	import { Disposable } from 'event-kit';
+	/**
+	 * Add an event listener to a DOM node.
+	 *
+	 * @return An object that upon being disposed will remove the event listener from the node it was
+	 *         originally added to.
+	 */
+	export default function create(node: HTMLElement, eventName: string, callback: EventListener): Disposable;
+
+}
+
 declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
+	import { Disposable } from 'event-kit';
 	export class DebugToolbarElement {
-	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
-	    base: polymer.Base;
+	    /** Add a listener to be called when the Settings button is pressed. */
+	    onActivateSettingsTool(callback: EventListener): Disposable;
+	    private openSettings();
 	}
 	export function register(): typeof DebugToolbarElement;
 

@@ -117,6 +117,22 @@ declare namespace polymer {
      * @param selector CSS selector that should match a `<content>` node, defaults to `content`.
      */
     getContentChildren(selector: string): HTMLElement[];
+    /**
+     * Add an event listener on a given element, late bound to a named method on this element.
+     * 
+     * @param node Element to add event listener to.
+     * @param eventName Name of event to listen for.
+     * @param methodName Name of handler method on `this` to call.
+     */
+    listen(node: HTMLElement, eventName: string, methodName: string): void;
+    /**
+     * Remove an event listener from a given element, late bound to a named method on this element.
+     * 
+     * @param node Element to remove event listener from.
+     * @param eventName Name of event to stop listening to.
+     * @param methodName Name of handler method on `this` to not call anymore.
+     */
+    unlisten(node: HTMLElement, eventName: string, methodName: string): void;
     /** Dispatches a custom event. */
     fire(
       type: string, detail?: Object, 
