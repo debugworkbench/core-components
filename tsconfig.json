@@ -25,6 +25,7 @@
         "./typings/lib.es6.d.ts",
         "./typings/polymer/polymer.d.ts",
         "./typings/polymer-elements/paper-dialog.d.ts",
+        "./typings/polymer-elements/paper-icon-button.d.ts",
         "./node_modules/polymer-ts-decorators/lib/decorators.d.ts",
         "./debug-configuration/debug-configuration.ts",
         "./debug-toolbar/debug-toolbar.ts",

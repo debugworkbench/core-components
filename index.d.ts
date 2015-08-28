@@ -32,8 +32,14 @@ declare module 'debug-workbench-core-components/lib/disposable-dom-event-listene
 declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
 	import { Disposable } from 'event-kit';
 	export class DebugToolbarElement {
+	    /** Add a listener to be called when the Start button is pressed. */
+	    onStartButtonPressed(callback: EventListener): Disposable;
+	    /** Add a listener to be called when the Stop button is pressed. */
+	    onStopButtonPressed(callback: EventListener): Disposable;
 	    /** Add a listener to be called when the Settings button is pressed. */
 	    onActivateSettingsTool(callback: EventListener): Disposable;
+	    private startDebugging();
+	    private stopDebugging();
 	    private openSettings();
 	}
 	export function register(): typeof DebugToolbarElement;
