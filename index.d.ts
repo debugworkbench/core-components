@@ -25,7 +25,7 @@ declare module 'debug-workbench-core-components/lib/disposable-dom-event-listene
 	 * @return An object that upon being disposed will remove the event listener from the node it was
 	 *         originally added to.
 	 */
-	export default function create(node: HTMLElement, eventName: string, callback: EventListener): Disposable;
+	export default function add(node: HTMLElement, eventName: string, callback: EventListener): Disposable;
 
 }
 
@@ -37,7 +37,7 @@ declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
 	    /** Add a listener to be called when the Stop button is pressed. */
 	    onStopButtonPressed(callback: EventListener): Disposable;
 	    /** Add a listener to be called when the Settings button is pressed. */
-	    onActivateSettingsTool(callback: EventListener): Disposable;
+	    onSettingsButtonPressed(callback: EventListener): Disposable;
 	    private startDebugging();
 	    private stopDebugging();
 	    private openSettings();

@@ -3,7 +3,7 @@
 
 import * as pd from 'polymer-ts-decorators';
 import { Disposable } from 'event-kit';
-import createDisposableListener from '../lib/disposable-dom-event-listener';
+import addDisposableListener from '../lib/disposable-dom-event-listener';
 
 interface ILocalDOM {
   startButton: PolymerElements.PaperIconButton;
@@ -27,19 +27,20 @@ const OPEN_SETTINGS_EVENT = 'open-settings';
 export class DebugToolbarElement {
   /** Add a listener to be called when the Start button is pressed. */
   onStartButtonPressed(callback: EventListener): Disposable {
-    return createDisposableListener(<any> this, START_DEBUGGING_EVENT, callback);
+    return addDisposableListener(<any> this, START_DEBUGGING_EVENT, callback);
   }
   
   /** Add a listener to be called when the Stop button is pressed. */
   onStopButtonPressed(callback: EventListener): Disposable {
-    return createDisposableListener(<any> this, STOP_DEBUGGING_EVENT, callback);
+    return addDisposableListener(<any> this, STOP_DEBUGGING_EVENT, callback);
   }
   
   /** Add a listener to be called when the Settings button is pressed. */
-  onActivateSettingsTool(callback: EventListener): Disposable {
-    return createDisposableListener(<any> this, OPEN_SETTINGS_EVENT, callback);
+  onSettingsButtonPressed(callback: EventListener): Disposable {
+    return addDisposableListener(<any> this, OPEN_SETTINGS_EVENT, callback);
   }
   
+  @pd.listener('startButton.tap')
   private startDebugging(): void {
     base(this).fire(START_DEBUGGING_EVENT);
     // debugger may take some time to start up, prevent the user from pressing the start button
@@ -47,6 +48,7 @@ export class DebugToolbarElement {
     $(this).startButton.disabled = true;
   }
   
+  @pd.listener('stopButton.tap')
   private stopDebugging(): void {
     base(this).fire(STOP_DEBUGGING_EVENT);
     // debugger may take some time to shut down, prevent the user from pressing the stop button
@@ -54,6 +56,7 @@ export class DebugToolbarElement {
     $(this).stopButton.disabled = true;
   }
   
+  @pd.listener('settingsButton.tap')
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
   }
