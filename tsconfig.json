@@ -18,7 +18,8 @@
         "./debug-configuration/**/*.ts",
         "./debug-toolbar/**/*.ts",
         "./file-input/**/*.ts",
-        "./register-element/**/*.ts"
+        "./register-element/**/*.ts",
+        "./lib/*.ts"
     ],
     "files": [
         "./typings/lib-tsd.d.ts",
@@ -30,6 +31,10 @@
         "./debug-configuration/debug-configuration.ts",
         "./debug-toolbar/debug-toolbar.ts",
         "./file-input/file-input.ts",
-        "./register-element/register-element.ts"
+        "./register-element/register-element.ts",
+        "./lib/debug-engine.ts",
+        "./lib/debug-workbench.ts",
+        "./lib/disposable-dom-event-listener.ts",
+        "./lib/gdb-mi-debug-engine.ts"
     ]
 }

@@ -4,6 +4,8 @@
 import * as pd from 'polymer-ts-decorators';
 import { Disposable } from 'event-kit';
 import addDisposableListener from '../lib/disposable-dom-event-listener';
+import * as debugWorkbench from '../lib/debug-workbench';
+import { IDebugSession } from '../lib/debug-engine'
 
 interface ILocalDOM {
   startButton: PolymerElements.PaperIconButton;
@@ -25,6 +27,8 @@ const OPEN_SETTINGS_EVENT = 'open-settings';
 
 @pd.is('debug-workbench-debug-toolbar')
 export class DebugToolbarElement {
+  private debugSession: IDebugSession;
+  
   /** Add a listener to be called when the Start button is pressed. */
   onStartButtonPressed(callback: EventListener): Disposable {
     return addDisposableListener(<any> this, START_DEBUGGING_EVENT, callback);
@@ -43,17 +47,31 @@ export class DebugToolbarElement {
   @pd.listener('startButton.tap')
   private startDebugging(): void {
     base(this).fire(START_DEBUGGING_EVENT);
-    // debugger may take some time to start up, prevent the user from pressing the start button
-    // again while that's happening
-    $(this).startButton.disabled = true;
+    // TODO: factor this out into a start-debugging <configuration> command that can be dispatched
+    // from here or from a yet to be implemented command terminal window.
+    // TODO: hide the start button, show the stop button
+    debugWorkbench.getDebugConfig('Launch')
+    .then((debugConfig) => {
+      const debugEngine = debugWorkbench.getDebugEngine(debugConfig.engine);
+      return debugEngine.startDebugSession(debugConfig/*, { console }*/);
+    })
+    .then((debugSession) => {
+      this.debugSession = debugSession;
+      // TODO: enable the restart, step in/out/over buttons
+    });
   }
   
   @pd.listener('stopButton.tap')
   private stopDebugging(): void {
     base(this).fire(STOP_DEBUGGING_EVENT);
-    // debugger may take some time to shut down, prevent the user from pressing the stop button
-    // again while that's happening
-    $(this).stopButton.disabled = true;
+    if (this.debugSession) {
+      // TODO: disable the restart, step in/out/over buttons
+      this.debugSession.end()
+      .then(() => {
+        this.debugSession = null;
+        // TODO: hide the stop button, show the start button
+      })
+    }    
   }
   
   @pd.listener('settingsButton.tap')
