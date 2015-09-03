@@ -26,8 +26,12 @@ const STOP_DEBUGGING_EVENT = 'stop-debugging';
 const OPEN_SETTINGS_EVENT = 'open-settings';
 
 @pd.is('debug-workbench-debug-toolbar')
-export class DebugToolbarElement {
+export default class DebugToolbarElement {
   private debugSession: IDebugSession;
+  
+  static create(): Promise<IDebugToolbarElement> {
+	  return debugWorkbench.createElement((<any> DebugToolbarElement.prototype).is);
+  }
   
   /** Add a listener to be called when the Start button is pressed. */
   onStartButtonPressed(callback: EventListener): Disposable {
@@ -78,6 +82,8 @@ export class DebugToolbarElement {
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
   }
+
+export interface IDebugToolbarElement extends DebugToolbarElement, HTMLElement {
 }
 
 export function register(): typeof DebugToolbarElement {

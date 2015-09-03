@@ -1,4 +1,6 @@
 import * as pd from 'polymer-ts-decorators';
+import { IDebugConfigElementBehavior, IDebugConfig } from '../lib/debug-engine';
+import { createElement } from '../lib/debug-workbench';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;
@@ -12,10 +14,9 @@ function $(element: any): ILocalDOM {
  * Base behavior of the DebugConfigurationElement.
  */
 @pd.is('debug-configuration')
-export class DebugConfigurationElement {
-  /** The returned object will only be valid after the element has been upgraded to a custom element. */
-  get base(): polymer.Base {
-    return <any> this;
+export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+  static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement> {
+	  return createElement((<any> DebugConfigurationElement.prototype).is, debugConfig);
   }
 
   open(): void {
@@ -31,6 +32,9 @@ export class DebugConfigurationElement {
       dialog.close();
     }
   }
+}
+
+export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
 }
 
 export function register(): typeof DebugConfigurationElement {

@@ -3,9 +3,23 @@
 
 // TODO: Move this into https://github.com/debugworkbench/debug-engine
 
+import { Disposable } from 'event-kit';
+
+export interface IDebugConfigElementBehavior {
+  onOpened(callback: EventListener): Disposable;
+  onClosed(callback: EventListener): Disposable;
+  open(): void;
+  close(): void;
+}
+
+export interface IDebugConfigElement extends IDebugConfigElementBehavior, HTMLElement {
+}
+
 export interface IDebugConfig {
   name: string;
   engine: string;
+  
+  createElement(): Promise<IDebugConfigElement>;
 }
 
 export interface IDebugSession {
@@ -14,5 +28,7 @@ export interface IDebugSession {
 
 export interface IDebugEngine {
   name: string;
+  
+  createConfig(configName: string): IDebugConfig;
   startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
 }

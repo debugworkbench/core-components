@@ -35,6 +35,7 @@
         "./lib/debug-engine.ts",
         "./lib/debug-workbench.ts",
         "./lib/disposable-dom-event-listener.ts",
-        "./lib/gdb-mi-debug-engine.ts"
+        "./lib/gdb-mi-debug-engine.ts",
+        "./lib/element-factory.ts"
     ]
 }
