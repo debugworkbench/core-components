@@ -3,17 +3,73 @@
 //
 
 
-declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
-	/**
-	 * Base behavior of the DebugConfigurationElement.
-	 */
-	export class DebugConfigurationElement {
-	    /** The returned object will only be valid after the element has been upgraded to a custom element. */
-	    base: polymer.Base;
+declare module 'debug-workbench-core-components/lib/debug-engine' {
+	import { Disposable } from 'event-kit';
+	export interface IDebugConfigElementBehavior {
+	    onOpened(callback: EventListener): Disposable;
+	    onClosed(callback: EventListener): Disposable;
 	    open(): void;
 	    close(): void;
 	}
-	export function register(): typeof DebugConfigurationElement;
+	export interface IDebugConfigElement extends IDebugConfigElementBehavior, HTMLElement {
+	}
+	export interface IDebugConfig {
+	    name: string;
+	    engine: string;
+	    createElement(): Promise<IDebugConfigElement>;
+	}
+	export interface IDebugSession {
+	    end(): Promise<void>;
+	}
+	export interface IDebugEngine {
+	    name: string;
+	    createConfig(configName: string): IDebugConfig;
+	    startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
+	}
+
+}
+
+declare module 'debug-workbench-core-components/lib/element-factory' {
+	export interface IElementFactory {
+	    setElementConstructor(tagName: string, elementConstructor: Function): void;
+	    createElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
+	    /**
+	     * Create an element from the debug-workbench namespace.
+	     * @param tagName Name of the element to create, without the 'debug-workbench-' namespace prefix.
+	     *                e.g. to create an element that was registered under the name
+	     *                'debug-workbench-my-element' specify 'my-element'.
+	     * @param args Arguments to pass through to the element constructor.
+	     */
+	    createCoreElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
+	}
+
+}
+
+declare module 'debug-workbench-core-components/lib/gdb-mi-debug-engine' {
+	import { IDebugConfig, IDebugSession, IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
+	export class GdbMiDebugEngine implements IDebugEngine {
+	    name: string;
+	    createConfig(configName: string): IDebugConfig;
+	    startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
+	}
+
+}
+
+declare module 'debug-workbench-core-components/lib/debug-workbench' {
+	import { IElementFactory } from 'debug-workbench-core-components/lib/element-factory';
+	import { IDebugConfig, IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
+	export interface IActivationConfig {
+	    openDebugConfig: (configName: string) => void;
+	    elementFactory: IElementFactory;
+	}
+	export function activate(config: IActivationConfig): void;
+	export function deactivate(): void;
+	export function getDebugConfig(configName: string): Promise<IDebugConfig>;
+	export function openDebugConfig(configName?: string): void;
+	export function getDebugEngine(engine: string): IDebugEngine;
+	export function createElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
+	export function createCoreElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
+	export function setElementConstructor(tagName: string, elementConstructor: Function): void;
 
 }
 
@@ -29,9 +85,32 @@ declare module 'debug-workbench-core-components/lib/disposable-dom-event-listene
 
 }
 
+declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
+	import { IDebugConfigElementBehavior, IDebugConfig } from 'debug-workbench-core-components/lib/debug-engine';
+	import { Disposable } from 'event-kit';
+	/**
+	 * Base behavior of the DebugConfigurationElement.
+	 */
+	export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+	    static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement>;
+	    /** Add a listener to be called when the dialog is opened. */
+	    onOpened(callback: EventListener): Disposable;
+	    /** Add a listener to be called when the dialog is closed. */
+	    onClosed(callback: EventListener): Disposable;
+	    open(): void;
+	    close(): void;
+	}
+	export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
+	}
+	export function register(): typeof DebugConfigurationElement;
+
+}
+
 declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
 	import { Disposable } from 'event-kit';
-	export class DebugToolbarElement {
+	export default class DebugToolbarElement {
+	    private debugSession;
+	    static create(): Promise<IDebugToolbarElement>;
 	    /** Add a listener to be called when the Start button is pressed. */
 	    onStartButtonPressed(callback: EventListener): Disposable;
 	    /** Add a listener to be called when the Stop button is pressed. */
@@ -41,6 +120,9 @@ declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
 	    private startDebugging();
 	    private stopDebugging();
 	    private openSettings();
+	    private createNewDebugConfig();
+	}
+	export interface IDebugToolbarElement extends DebugToolbarElement, HTMLElement {
 	}
 	export function register(): typeof DebugToolbarElement;
 
@@ -55,6 +137,28 @@ declare module 'debug-workbench-core-components/file-input/file-input' {
 	    openBrowseDialog(): void;
 	}
 	export function register(): typeof FileInputElement;
+
+}
+
+declare module 'debug-workbench-core-components/new-debug-config-dialog/new-debug-config-dialog' {
+	import { Disposable } from 'event-kit';
+	import { IDebugConfig } from 'debug-workbench-core-components/lib/debug-engine';
+	/**
+	 * A simple dialog that lets the user enter the name for a new debug config and select
+	 * the debug engine the new config will be used with.
+	 */
+	export default class NewDebugConfigDialogElement {
+	    static create(): Promise<INewDebugConfigDialogElement>;
+	    /** Add a listener to be called when the dialog is opened. */
+	    onOpened(callback: () => void): Disposable;
+	    /** Add a listener to be called when the dialog is closed. */
+	    onClosed(callback: (debugConfig: IDebugConfig) => void): Disposable;
+	    open(): void;
+	    close(): void;
+	}
+	export interface INewDebugConfigDialogElement extends NewDebugConfigDialogElement, HTMLElement {
+	}
+	export function register(): typeof NewDebugConfigDialogElement;
 
 }
 

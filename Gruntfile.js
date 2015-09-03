@@ -19,7 +19,9 @@ module.exports = function(grunt) {
           'debug-configuration/debug-configuration.ts',
           'debug-toolbar/debug-toolbar.ts',
           'file-input/file-input.ts',
-          'register-element/register-element.ts'
+          'new-debug-config-dialog/new-debug-config-dialog.ts',
+          'register-element/register-element.ts',
+          'lib/element-factory.ts'
         ]
       }
     },
