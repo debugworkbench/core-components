@@ -22,6 +22,12 @@ declare namespace PolymerElements {
         complete(): void;
     }
     
+    // NOTE: This interface gets merged with the one in paper-dialog-behavior.
+    interface IClosingReason {
+        /** `true` if user clicked out of bounds or pressed the escape key. */
+        canceled: boolean;
+    }
+    
     interface IronOverlayBehaviorImpl {
         // Properties that can be bound to
         
@@ -44,7 +50,7 @@ declare namespace PolymerElements {
          */
         noCancelOnOutsideClick: boolean;
         /** The reason the overlay last closed. */
-        closingReason: Object;
+        closingReason: IClosingReason;
         
         // Properties that can't be bound to
         
