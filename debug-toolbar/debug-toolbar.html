@@ -53,8 +53,9 @@ Example:
         <paper-icon-button id="startButton" icon="av:play-arrow" alt="Start Debugging"></paper-icon-button>
         <paper-icon-button id="stopButton" icon="av:stop" alt="Stop Debugging"></paper-icon-button>
       </div>
-      <paper-dropdown-menu label="Configurations" no-label-float>
+      <paper-dropdown-menu id="configs" label="Configurations" no-label-float>
         <paper-menu class="dropdown-content">
+          <paper-item id="newConfigItem">New...</paper-item>
           <paper-item>Launch</paper-item>
           <paper-item>Attach</paper-item>
         </paper-menu>

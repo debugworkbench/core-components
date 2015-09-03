@@ -10,7 +10,9 @@ import { IDebugSession } from '../lib/debug-engine'
 interface ILocalDOM {
   startButton: PolymerElements.PaperIconButton;
   stopButton: PolymerElements.PaperIconButton;
-  settingsTool: PolymerElements.PaperIconButton;
+  settingsButton: PolymerElements.PaperIconButton;
+  configs: PolymerElements.PaperDropdownMenu;
+  newConfigItem: PolymerElements.PaperItem;
 }
 
 function $(element: DebugToolbarElement): ILocalDOM {
@@ -81,7 +83,22 @@ export default class DebugToolbarElement {
   @pd.listener('settingsButton.tap')
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
+    if ($(this).newConfigItem === $(this).configs.selectedItem) {
+      // when the config name is omitted the user will be prompted to create a new config 
+      debugWorkbench.openDebugConfig();
+    } else {
+      debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
+    }
   }
+  
+  @pd.listener('configs.selected-item-changed')
+  private createNewDebugConfig(): void {
+    if ($(this).newConfigItem === $(this).configs.selectedItem) {
+      // when the config name is omitted the user will be prompted to create a new config 
+      debugWorkbench.openDebugConfig();
+    }
+  }
+}
 
 export interface IDebugToolbarElement extends DebugToolbarElement, HTMLElement {
 }
