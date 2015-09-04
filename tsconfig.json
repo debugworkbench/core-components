@@ -26,6 +26,7 @@
         "./typings/lib-tsd.d.ts",
         "./typings/lib.es6.d.ts",
         "./typings/polymer/polymer.d.ts",
+        "./typings/polymer-elements/iron-selector.d.ts",
         "./typings/polymer-elements/paper-dialog.d.ts",
         "./typings/polymer-elements/paper-dropdown-menu.d.ts",
         "./typings/polymer-elements/paper-icon-button.d.ts",

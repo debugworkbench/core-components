@@ -83,20 +83,25 @@ export default class DebugToolbarElement {
   @pd.listener('settingsButton.tap')
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
-    if ($(this).newConfigItem === $(this).configs.selectedItem) {
+    debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
+  }
+  
+  @pd.listener('configs.iron-activate')
+  private willSelectDebugConfig(e: PolymerElements.IronActivateEvent): void {
+    // when the user selects the 'New...' item in the configurations dropdown display a dialog
+    // that lets them create a new configuration
+    if ($(this).newConfigItem === e.detail.item) {
+      // skip default selection logic so that 'New...' doesn't show up in the input element
+      e.preventDefault();
+      $(this).configs.close();
       // when the config name is omitted the user will be prompted to create a new config 
       debugWorkbench.openDebugConfig();
-    } else {
-      debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
     }
   }
   
   @pd.listener('configs.selected-item-changed')
-  private createNewDebugConfig(): void {
-    if ($(this).newConfigItem === $(this).configs.selectedItem) {
-      // when the config name is omitted the user will be prompted to create a new config 
-      debugWorkbench.openDebugConfig();
-    }
+  private didSelectDebugConfig(): void {
+    // TODO: notify anyone that cares that the current debug config changed 
   }
 }
 

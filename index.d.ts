@@ -120,7 +120,8 @@ declare module 'debug-workbench-core-components/debug-toolbar/debug-toolbar' {
 	    private startDebugging();
 	    private stopDebugging();
 	    private openSettings();
-	    private createNewDebugConfig();
+	    private willSelectDebugConfig(e);
+	    private didSelectDebugConfig();
 	}
 	export interface IDebugToolbarElement extends DebugToolbarElement, HTMLElement {
 	}
