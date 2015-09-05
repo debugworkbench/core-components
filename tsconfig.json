@@ -32,6 +32,7 @@
         "./typings/polymer-elements/paper-icon-button.d.ts",
         "./typings/polymer-elements/paper-input.d.ts",
         "./typings/polymer-elements/paper-item.d.ts",
+        "./typings/thenify/thenify.d.ts",
         "./node_modules/polymer-ts-decorators/lib/decorators.d.ts",
         "./debug-configuration/debug-configuration.ts",
         "./debug-toolbar/debug-toolbar.ts",
