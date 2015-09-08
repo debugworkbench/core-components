@@ -68,9 +68,9 @@ declare module AtomEventKit {
 		* the given event.
 		* @return An object that will unregister the handler when disposed.
 		*/
-		preempt(eventName: string, handler: (value: any) => void): Disposable;
+		preempt(eventName: string, handler: (value?: any) => void): Disposable;
 		/** Invokes any registered handlers for the given event. */
-		emit(eventName: string, value: any): void;
+		emit(eventName: string, value?: any): void;
 	}
 
 	/** A utility class for implementing event-based APIs. */
