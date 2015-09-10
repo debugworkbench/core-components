@@ -2,7 +2,7 @@
 // MIT License, see LICENSE file for full terms.
 
 import * as pd from 'polymer-ts-decorators';
-import { Disposable } from 'event-kit';
+import { CompositeDisposable, Disposable } from 'event-kit';
 import addDisposableListener from '../lib/disposable-dom-event-listener';
 import * as debugWorkbench from '../lib/debug-workbench';
 import { IDebugSession } from '../lib/debug-engine'
@@ -27,9 +27,17 @@ const START_DEBUGGING_EVENT = 'start-debugging';
 const STOP_DEBUGGING_EVENT = 'stop-debugging';
 const OPEN_SETTINGS_EVENT = 'open-settings';
 
+function getDebugConfigNames(): string[] {
+  return debugWorkbench.debugConfigs.getAll().map((debugConfig) => debugConfig.name);
+}
+
 @pd.is('debug-workbench-debug-toolbar')
 export default class DebugToolbarElement {
+  private subscriptions: CompositeDisposable;
   private debugSession: IDebugSession;
+  
+  @pd.property({ type: Array, value: getDebugConfigNames })
+  private debugConfigs: string[];
   
   static create(): Promise<IDebugToolbarElement> {
 	  return debugWorkbench.createElement((<any> DebugToolbarElement.prototype).is);
@@ -50,6 +58,41 @@ export default class DebugToolbarElement {
     return addDisposableListener(<any> this, OPEN_SETTINGS_EVENT, callback);
   }
   
+  created(): void {
+    this.subscriptions = new CompositeDisposable();
+  }
+  
+  ready(): void {
+    this.subscriptions.add(debugWorkbench.debugConfigs.onDidAddConfig(
+      (addedConfig) => {
+        base(this).push('debugConfigs', addedConfig.name);
+      }
+    ));
+    this.subscriptions.add(debugWorkbench.debugConfigs.onDidRemoveConfig(
+      (removedConfig) => {
+        const idx = this.debugConfigs.indexOf(removedConfig.name);
+        if (idx > -1) {
+          base(this).splice('debugConfigs', idx, 1);
+        }
+      }
+    ));
+    this.subscriptions.add(debugWorkbench.debugConfigs.onDidRenameConfig(
+      ({ newName, oldName }) => {
+        const idx = this.debugConfigs.indexOf(oldName);
+        if (idx > -1) {
+          base(this).set(['debugConfigs', idx], newName);
+        }
+      }
+    ));
+  }
+  
+  destroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.dispose();
+      this.subscriptions = null;
+    }
+  }
+    
   @pd.listener('startButton.tap')
   private startDebugging(): void {
     base(this).fire(START_DEBUGGING_EVENT);
