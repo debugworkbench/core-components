@@ -45,6 +45,18 @@ declare module 'debug-workbench-core-components/lib/element-factory' {
 
 }
 
+declare module 'debug-workbench-core-components/lib/debug-engine-provider' {
+	import { IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
+	export interface IDebugEngineProvider {
+	    engineName: string;
+	    createEngine(): IDebugEngine;
+	}
+	export function register(provider: IDebugEngineProvider): void;
+	export function unregisterAll(): void;
+	export function getEngine(engineName: string): IDebugEngine;
+
+}
+
 declare module 'debug-workbench-core-components/lib/gdb-mi-debug-engine' {
 	import { IDebugConfig, IDebugSession, IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
 	export class GdbMiDebugEngine implements IDebugEngine {

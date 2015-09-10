@@ -34,6 +34,7 @@
         "./new-debug-config-dialog/new-debug-config-dialog.ts",
         "./register-element/register-element.ts",
         "./lib/debug-engine.ts",
+        "./lib/debug-engine-provider.ts",
         "./lib/debug-workbench.ts",
         "./lib/disposable-dom-event-listener.ts",
         "./lib/gdb-mi-debug-engine.ts",
