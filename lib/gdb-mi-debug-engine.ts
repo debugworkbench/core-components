@@ -7,16 +7,9 @@ import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from '
 import { IDebugEngineProvider } from './debug-engine-provider';
 import DebugConfigElement from '../debug-configuration/debug-configuration';
 
-class GdbMiDebugConfig implements IDebugConfig {
-  debuggerType: string;
-  debuggerPath: string;
-  
-  constructor(public name: string, public engine: string) {
-  }
-  
-  createElement(): Promise<IDebugConfigElement> {
-    return DebugConfigElement.create(this);
-  }
+interface IGdbMiDebugConfig extends IDebugConfig {
+  debuggerType?: string;
+  debuggerPath?: string;
 }
 
 class GdbMiDebugSession implements IDebugSession {
@@ -31,9 +24,16 @@ class GdbMiDebugEngine implements IDebugEngine {
   }
     
   createConfig(configName: string): IDebugConfig {
-    return new GdbMiDebugConfig(configName, this.name);
+    return <IGdbMiDebugConfig> {
+      name: configName,
+      engine: this.name
+    };
   }
     
+  createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement> {
+    return DebugConfigElement.create(config);
+  }
+  
   startDebugSession(config: IDebugConfig): Promise<IDebugSession> {
     return Promise.resolve(new GdbMiDebugSession());
   }

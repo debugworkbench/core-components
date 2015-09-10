@@ -18,8 +18,6 @@ export interface IDebugConfigElement extends IDebugConfigElementBehavior, HTMLEl
 export interface IDebugConfig {
   name: string;
   engine: string;
-  
-  createElement(): Promise<IDebugConfigElement>;
 }
 
 export interface IDebugSession {
@@ -30,5 +28,6 @@ export interface IDebugEngine {
   name: string;
   
   createConfig(configName: string): IDebugConfig;
+  createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement>;
   startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
 }
