@@ -12,6 +12,11 @@
   "engines": {
     "node": ">=0.12.0"
   },
+  "typescript": {
+    "definitions": [
+      "typings/polymer-elements/index.d.ts"
+    ]
+  },
   "scripts": {
     "preinstall": "",
     "test": "echo \"Error: no test specified\" && exit 1"
