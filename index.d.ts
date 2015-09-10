@@ -246,10 +246,15 @@ declare module 'debug-workbench-core-components/new-debug-config-dialog/new-debu
 	 * the debug engine the new config will be used with.
 	 */
 	export default class NewDebugConfigDialogElement {
+	    private emitter;
 	    static create(): Promise<INewDebugConfigDialogElement>;
-	    /** Add a listener to be called when the dialog is opened. */
+	    created(): void;
+	    destroy(): void;
+	    private onIronOverlayOpened(e);
+	    private onIronOverlayClosed(e);
+	    /** Add a function to be called when the dialog is opened. */
 	    onOpened(callback: () => void): Disposable;
-	    /** Add a listener to be called when the dialog is closed. */
+	    /** Add a function to be called when the dialog is closed. */
 	    onClosed(callback: (debugConfig: IDebugConfig) => void): Disposable;
 	    open(): void;
 	    close(): void;

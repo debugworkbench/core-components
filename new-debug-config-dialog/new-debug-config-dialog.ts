@@ -1,8 +1,8 @@
 import * as pd from 'polymer-ts-decorators';
-import { Disposable } from 'event-kit';
+import { Disposable, Emitter } from 'event-kit';
 import addDisposableListener from '../lib/disposable-dom-event-listener';
 import { IDebugConfig } from '../lib/debug-engine';
-import { createElement, getDebugEngine } from '../lib/debug-workbench';
+import * as debugWorkbench from '../lib/debug-workbench';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;
@@ -14,41 +14,63 @@ function $(element: NewDebugConfigDialogElement): ILocalDOM {
   return (<any> element).$;
 }
 
+const OPENED_EVENT = 'opened';
+const CLOSED_EVENT = 'closed';
+
 /**
  * A simple dialog that lets the user enter the name for a new debug config and select
  * the debug engine the new config will be used with.
  */
 @pd.is('debug-workbench-new-debug-config-dialog')
 export default class NewDebugConfigDialogElement {
+  private emitter: Emitter;
+  
   static create(): Promise<INewDebugConfigDialogElement> {
-	  return createElement((<any> NewDebugConfigDialogElement.prototype).is);
+	  return debugWorkbench.createElement((<any> NewDebugConfigDialogElement.prototype).is);
   }
   
-  /** Add a listener to be called when the dialog is opened. */
+  created(): void {
+    this.emitter = new Emitter();
+  }
+  
+  destroy(): void {
+    if (this.emitter) {
+      this.emitter.dispose();
+      this.emitter = null;
+    }
+  }
+  
+  @pd.listener('dialog.iron-overlay-opened')
+  private onIronOverlayOpened(e: CustomEvent): void {
+    if (Polymer.dom(e).localTarget === $(this).dialog) {
+      this.emitter.emit(OPENED_EVENT);
+    } else {
+      e.stopPropagation();
+    }
+  }
+  
+  @pd.listener('dialog.iron-overlay-closed')
+  private onIronOverlayClosed(e: PolymerElements.IronOverlayClosedEvent): void {
+    if (Polymer.dom(e).localTarget === $(this).dialog) {
+      let debugConfig: IDebugConfig = null;
+      const debugEngine = debugWorkbench.getDebugEngine($(this).engines.selectedItemLabel);
+      if (e.detail.confirmed && debugEngine) {
+        debugConfig = debugEngine.createConfig($(this).configName.value);
+      }
+      this.emitter.emit(CLOSED_EVENT, debugConfig);
+    } else {
+      e.stopPropagation();
+    }
+  }
+  
+  /** Add a function to be called when the dialog is opened. */
   onOpened(callback: () => void): Disposable {
-    return addDisposableListener($(this).dialog, 'iron-overlay-opened', (e: CustomEvent) => {
-      if (Polymer.dom(e).localTarget === $(this).dialog) {
-        callback();
-      } else {
-        e.stopPropagation();
-      }
-    });
+    return this.emitter.on(OPENED_EVENT, callback);
   }
   
-  /** Add a listener to be called when the dialog is closed. */
+  /** Add a function to be called when the dialog is closed. */
   onClosed(callback: (debugConfig: IDebugConfig) => void): Disposable {
-    return addDisposableListener($(this).dialog, 'iron-overlay-closed', (e: CustomEvent) => {
-      if (Polymer.dom(e).localTarget === $(this).dialog) {
-        const debugEngine = getDebugEngine($(this).engines.selectedItemLabel);
-        if ($(this).dialog.closingReason.confirmed) {
-          callback(debugEngine ? debugEngine.createConfig($(this).configName.value) : null);
-        } else {
-          callback(null);
-        }
-      } else {
-        e.stopPropagation();
-      }
-    });
+    return this.emitter.on(CLOSED_EVENT, callback);
   }
   
   open(): void {
