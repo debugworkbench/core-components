@@ -6,10 +6,11 @@
 import { Disposable } from 'event-kit';
 
 export interface IDebugConfigElementBehavior {
-  onOpened(callback: EventListener): Disposable;
-  onClosed(callback: EventListener): Disposable;
+  onOpened(callback: () => void): Disposable;
+  onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable;
   open(): void;
   close(): void;
+  destroy(): void;
 }
 
 export interface IDebugConfigElement extends IDebugConfigElementBehavior, HTMLElement {

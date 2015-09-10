@@ -1,8 +1,7 @@
 import * as pd from 'polymer-ts-decorators';
 import { IDebugConfigElementBehavior, IDebugConfig } from '../lib/debug-engine';
-import { createElement } from '../lib/debug-workbench';
-import { Disposable } from 'event-kit';
-import addDisposableListener from '../lib/disposable-dom-event-listener';
+import * as debugWorkbench from '../lib/debug-workbench';
+import { Disposable, Emitter } from 'event-kit';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;
@@ -12,37 +11,74 @@ function $(element: any): ILocalDOM {
   return element.$;
 }
 
+const OPENED_EVENT = 'opened';
+const CLOSED_EVENT = 'closed';
+
 /**
  * Base behavior of the DebugConfigurationElement.
  */
 @pd.is('debug-configuration')
 export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+  private debugConfig: IDebugConfig;
+  private emitter: Emitter;
+  
   static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement> {
-	  return createElement((<any> DebugConfigurationElement.prototype).is, debugConfig);
+	  return debugWorkbench.createElement((<any> DebugConfigurationElement.prototype).is, debugConfig);
   }
   
-  /** Add a listener to be called when the dialog is opened. */
-  onOpened(callback: EventListener): Disposable {
-    return addDisposableListener($(this).dialog, 'iron-overlay-opened', callback);
+  created(): void {
+    this.emitter = new Emitter();
   }
   
-  /** Add a listener to be called when the dialog is closed. */
-  onClosed(callback: EventListener): Disposable {
-    return addDisposableListener($(this).dialog, 'iron-overlay-closed', callback);
+  destroy(): void {
+    if (this.emitter) {
+      this.emitter.dispose();
+      this.emitter = null;
+    }
+  }
+  
+  /** Called after ready() with arguments passed to the element constructor function. */
+  factoryImpl(debugConfig: IDebugConfig): void {
+    this.debugConfig = debugConfig;
+  }
+  
+  @pd.listener('dialog.iron-overlay-opened')
+  private onIronOverlayOpened(e: CustomEvent): void {
+    if (Polymer.dom(e).localTarget === $(this).dialog) {
+      this.emitter.emit(OPENED_EVENT);
+    } else {
+      e.stopPropagation();
+    }
+  }
+  
+  @pd.listener('dialog.iron-overlay-closed')
+  private onIronOverlayClosed(e: PolymerElements.IronOverlayClosedEvent): void {
+    if (Polymer.dom(e).localTarget === $(this).dialog) {
+      if (e.detail.confirmed) {
+        debugWorkbench.debugConfigs.save(this.debugConfig);
+      }
+      this.emitter.emit(CLOSED_EVENT, e.detail);
+    } else {
+      e.stopPropagation();
+    }
+  }
+  
+  /** Add a function to be called when the dialog is opened. */
+  onOpened(callback: () => void): Disposable {
+    return this.emitter.on(OPENED_EVENT, callback);
+  }
+  
+  /** Add a function to be called when the dialog is closed. */
+  onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable {
+    return this.emitter.on(CLOSED_EVENT, callback);
   }
   
   open(): void {
-    const dialog = $(this).dialog;
-    if (dialog) {
-      dialog.open();
-    }
+    $(this).dialog.open();
   }
   
   close(): void {
-    const dialog = $(this).dialog;
-    if (dialog) {
-      dialog.close();
-    }
+    $(this).dialog.close();
   }
 }
 

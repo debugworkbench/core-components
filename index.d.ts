@@ -6,10 +6,11 @@
 declare module 'debug-workbench-core-components/lib/debug-engine' {
 	import { Disposable } from 'event-kit';
 	export interface IDebugConfigElementBehavior {
-	    onOpened(callback: EventListener): Disposable;
-	    onClosed(callback: EventListener): Disposable;
+	    onOpened(callback: () => void): Disposable;
+	    onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable;
 	    open(): void;
 	    close(): void;
+	    destroy(): void;
 	}
 	export interface IDebugConfigElement extends IDebugConfigElementBehavior, HTMLElement {
 	}
@@ -170,6 +171,35 @@ declare module 'debug-workbench-core-components/lib/debug-workbench' {
 
 }
 
+declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
+	import { IDebugConfigElementBehavior, IDebugConfig } from 'debug-workbench-core-components/lib/debug-engine';
+	import { Disposable } from 'event-kit';
+	/**
+	 * Base behavior of the DebugConfigurationElement.
+	 */
+	export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+	    private debugConfig;
+	    private emitter;
+	    static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement>;
+	    created(): void;
+	    destroy(): void;
+	    /** Called after ready() with arguments passed to the element constructor function. */
+	    factoryImpl(debugConfig: IDebugConfig): void;
+	    private onIronOverlayOpened(e);
+	    private onIronOverlayClosed(e);
+	    /** Add a function to be called when the dialog is opened. */
+	    onOpened(callback: () => void): Disposable;
+	    /** Add a function to be called when the dialog is closed. */
+	    onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable;
+	    open(): void;
+	    close(): void;
+	}
+	export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
+	}
+	export function register(): typeof DebugConfigurationElement;
+
+}
+
 declare module 'debug-workbench-core-components/lib/disposable-dom-event-listener' {
 	import { Disposable } from 'event-kit';
 	/**
@@ -179,27 +209,6 @@ declare module 'debug-workbench-core-components/lib/disposable-dom-event-listene
 	 *         originally added to.
 	 */
 	export default function add(node: HTMLElement, eventName: string, callback: EventListener): Disposable;
-
-}
-
-declare module 'debug-workbench-core-components/debug-configuration/debug-configuration' {
-	import { IDebugConfigElementBehavior, IDebugConfig } from 'debug-workbench-core-components/lib/debug-engine';
-	import { Disposable } from 'event-kit';
-	/**
-	 * Base behavior of the DebugConfigurationElement.
-	 */
-	export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
-	    static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement>;
-	    /** Add a listener to be called when the dialog is opened. */
-	    onOpened(callback: EventListener): Disposable;
-	    /** Add a listener to be called when the dialog is closed. */
-	    onClosed(callback: EventListener): Disposable;
-	    open(): void;
-	    close(): void;
-	}
-	export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
-	}
-	export function register(): typeof DebugConfigurationElement;
 
 }
 
