@@ -3,10 +3,10 @@
 
 import { IElementFactory } from './element-factory';
 import { IDebugConfig, IDebugEngine } from './debug-engine';
-import { GdbMiDebugEngine } from './gdb-mi-debug-engine';
+import { GdbMiDebugEngineProvider } from './gdb-mi-debug-engine';
+import * as engineProvider from './debug-engine-provider';
 
 var _config: IActivationConfig;
-var debugEngine: IDebugEngine;
 
 export interface IActivationConfig {
   openDebugConfig: (configName: string) => void;
@@ -15,9 +15,11 @@ export interface IActivationConfig {
 
 export function activate(config: IActivationConfig) {
   _config = config;
+  engineProvider.register(new GdbMiDebugEngineProvider());
 }
 
 export function deactivate(): void {
+  engineProvider.unregisterAll();
   _config = null;
 }
 
@@ -29,11 +31,8 @@ export function openDebugConfig(configName?: string): void {
   _config.openDebugConfig(configName);
 }
 
-export function getDebugEngine(engine: string): IDebugEngine {
-  if (!debugEngine) {
-    debugEngine = new GdbMiDebugEngine();
-  }
-  return debugEngine;
+export function getDebugEngine(engineName: string): IDebugEngine {
+  return engineProvider.getEngine(engineName);
 }
 
 export function createElement(tagName: string, ...args: any[]): Promise<HTMLElement> {

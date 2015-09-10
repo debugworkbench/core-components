@@ -58,11 +58,14 @@ declare module 'debug-workbench-core-components/lib/debug-engine-provider' {
 }
 
 declare module 'debug-workbench-core-components/lib/gdb-mi-debug-engine' {
-	import { IDebugConfig, IDebugSession, IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
-	export class GdbMiDebugEngine implements IDebugEngine {
-	    name: string;
-	    createConfig(configName: string): IDebugConfig;
-	    startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
+	import { IDebugEngine } from 'debug-workbench-core-components/lib/debug-engine';
+	import { IDebugEngineProvider } from 'debug-workbench-core-components/lib/debug-engine-provider';
+	export class GdbMiDebugEngineProvider implements IDebugEngineProvider {
+	    engineName: string;
+	    createEngine(): IDebugEngine;
+	}
+
+}
 	}
 
 }
@@ -78,7 +81,7 @@ declare module 'debug-workbench-core-components/lib/debug-workbench' {
 	export function deactivate(): void;
 	export function getDebugConfig(configName: string): Promise<IDebugConfig>;
 	export function openDebugConfig(configName?: string): void;
-	export function getDebugEngine(engine: string): IDebugEngine;
+	export function getDebugEngine(engineName: string): IDebugEngine;
 	export function createElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
 	export function createCoreElement(tagName: string, ...args: any[]): Promise<HTMLElement>;
 	export function setElementConstructor(tagName: string, elementConstructor: Function): void;

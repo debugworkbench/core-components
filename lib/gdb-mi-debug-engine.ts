@@ -4,6 +4,7 @@
 // TODO: Move this into its own package
 
 import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
+import { IDebugEngineProvider } from './debug-engine-provider';
 import DebugConfigElement from '../debug-configuration/debug-configuration';
 
 class GdbMiDebugConfig implements IDebugConfig {
@@ -24,8 +25,10 @@ class GdbMiDebugSession implements IDebugSession {
   }
 }
 
-export class GdbMiDebugEngine implements IDebugEngine {
-  name: string = 'gdb-mi';
+class GdbMiDebugEngine implements IDebugEngine {
+  get name(): string {
+    return 'gdb-mi';
+  }
     
   createConfig(configName: string): IDebugConfig {
     return new GdbMiDebugConfig(configName, this.name);
@@ -33,5 +36,15 @@ export class GdbMiDebugEngine implements IDebugEngine {
     
   startDebugSession(config: IDebugConfig): Promise<IDebugSession> {
     return Promise.resolve(new GdbMiDebugSession());
+  }
+}
+
+export class GdbMiDebugEngineProvider implements IDebugEngineProvider {
+  get engineName(): string {
+    return 'gdb-mi';
+  }
+  
+  createEngine(): IDebugEngine {
+    return new GdbMiDebugEngine();
   }
 }
