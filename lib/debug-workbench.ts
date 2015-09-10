@@ -4,27 +4,28 @@
 import { IElementFactory } from './element-factory';
 import { IDebugConfig, IDebugEngine } from './debug-engine';
 import { GdbMiDebugEngineProvider } from './gdb-mi-debug-engine';
+import DebugConfigManager from './debug-config-manager';
 import * as engineProvider from './debug-engine-provider';
 
 var _config: IActivationConfig;
+export var debugConfigs: DebugConfigManager;
 
 export interface IActivationConfig {
+  // FIXME: openDebugConfig should probably move into DebugConfigManager?
   openDebugConfig: (configName: string) => void;
   elementFactory: IElementFactory;
+  debugConfigManager: DebugConfigManager;
 }
 
 export function activate(config: IActivationConfig) {
   _config = config;
+  debugConfigs = config.debugConfigManager;
   engineProvider.register(new GdbMiDebugEngineProvider());
 }
 
 export function deactivate(): void {
   engineProvider.unregisterAll();
   _config = null;
-}
-
-export function getDebugConfig(configName: string): Promise<IDebugConfig> {
-  return Promise.resolve({ name: 'Launch', engine: 'gdb-mi' });
 }
 
 export function openDebugConfig(configName?: string): void {

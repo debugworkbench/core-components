@@ -56,8 +56,8 @@ export default class DebugToolbarElement {
     // TODO: factor this out into a start-debugging <configuration> command that can be dispatched
     // from here or from a yet to be implemented command terminal window.
     // TODO: hide the start button, show the stop button
-    debugWorkbench.getDebugConfig('Launch')
-    .then((debugConfig) => {
+    Promise.resolve().then(() => {
+      const debugConfig = debugWorkbench.debugConfigs.get($(this).configs.selectedItemLabel);
       const debugEngine = debugWorkbench.getDebugEngine(debugConfig.engine);
       return debugEngine.startDebugSession(debugConfig/*, { console }*/);
     })
@@ -83,7 +83,9 @@ export default class DebugToolbarElement {
   @pd.listener('settingsButton.tap')
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
-    debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
+    if ($(this).configs.selectedItemLabel) {
+      debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
+    }
   }
   
   @pd.listener('configs.iron-activate')

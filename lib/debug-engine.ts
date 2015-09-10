@@ -28,6 +28,7 @@ export interface IDebugEngine {
   name: string;
   
   createConfig(configName: string): IDebugConfig;
+  cloneConfig(config: IDebugConfig): IDebugConfig;
   createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement>;
   startDebugSession(config: IDebugConfig): Promise<IDebugSession>;
 }

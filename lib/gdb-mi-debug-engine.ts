@@ -18,6 +18,11 @@ class GdbMiDebugSession implements IDebugSession {
   }
 }
 
+// custom type guard function for IGdbMiDebugConfig
+function isGdbMiDebugConfig(config: IDebugConfig): config is IGdbMiDebugConfig {
+  return config.engine === 'gdb-mi';
+}
+
 class GdbMiDebugEngine implements IDebugEngine {
   get name(): string {
     return 'gdb-mi';
@@ -29,7 +34,20 @@ class GdbMiDebugEngine implements IDebugEngine {
       engine: this.name
     };
   }
-    
+  
+  cloneConfig(config: IDebugConfig): IDebugConfig {
+    if (isGdbMiDebugConfig(config)) {
+      return <IGdbMiDebugConfig> {
+        name: config.name,
+        engine: config.engine,
+        debuggerType: config.debuggerType,
+        debuggerPath: config.debuggerPath
+      };
+    } else {
+      throw new Error(`Debug engine ${this.name} can't clone debug config for engine ${config.engine}.`);
+    }
+  }
+  
   createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement> {
     return DebugConfigElement.create(config);
   }

@@ -33,6 +33,7 @@
         "./file-input/file-input.ts",
         "./new-debug-config-dialog/new-debug-config-dialog.ts",
         "./register-element/register-element.ts",
+        "./lib/debug-config-manager.ts",
         "./lib/debug-engine.ts",
         "./lib/debug-engine-provider.ts",
         "./lib/debug-workbench.ts",
