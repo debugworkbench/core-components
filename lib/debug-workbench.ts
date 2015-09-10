@@ -37,11 +37,11 @@ export function getDebugEngine(engine: string): IDebugEngine {
 }
 
 export function createElement(tagName: string, ...args: any[]): Promise<HTMLElement> {
-  return _config.elementFactory.createElement(tagName, args);
+  return _config.elementFactory.createElement.apply(_config.elementFactory, arguments);
 }
 
 export function createCoreElement(tagName: string, ...args: any[]): Promise<HTMLElement> {
-  return _config.elementFactory.createCoreElement(tagName, args);
+  return _config.elementFactory.createCoreElement.apply(_config.elementFactory, arguments);
 }
 
 export function setElementConstructor(tagName: string, elementConstructor: Function) {
