@@ -28,6 +28,11 @@ declare namespace PolymerElements {
         canceled: boolean;
     }
     
+    /** Custom event that's emitted by [[IronOverlayBehavior]] after the overlay is closed. */
+	interface IronOverlayClosedEvent extends CustomEvent {
+		detail: IClosingReason;
+	}
+    
     interface IronOverlayBehaviorImpl {
         // Properties that can be bound to
         

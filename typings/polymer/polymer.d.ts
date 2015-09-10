@@ -150,6 +150,71 @@ declare namespace polymer {
     importHref(href: string, onload: Function, onerror: Function): HTMLLinkElement;
     /** Creates and configures an element with the given properties. */
     create(tag: string, props: Object): HTMLElement;
+    
+    // Path Notification
+    /**
+     * Notify interested parties that the value at a data path has changed.
+     *
+     * @param fromAbove Set to `true` to indicate that upward notification is not necessary.  
+     * @return `true` if the value at the data path actually changed.
+     */
+    notifyPath(path: string, value: any, fromAbove?: boolean): boolean;
+    /**
+     * Set the value at a data path and notify interested parties.
+     * 
+     * @param root Object relative to which the `path` should be evaluated, defaults to `this`.
+     */
+    set(path: string | Array<string | number>, value: any, root?: Object): void;
+    /**
+     * Get the value at a data path.
+     * 
+     * @param root Object relative to which the `path` should be evaluated, defaults to `this`.
+     */
+    get(path: string | Array<string | number>, root?: Object): any;
+    /** Add an alias for a data path, so that notifications are routed between them. */
+    linkPaths(to: string, from: string): void;
+    /** Remove a data path alias previously added by [[linkPaths]]. */
+    unlinkPaths(path: string): void;
+    /**
+     * Add items to then end of an array and notify interested parties of the change.
+     * 
+     * @param path Path to the array to modify.
+     * @param items One or more items to add.
+     * @return New length of the array after the items are added.
+     */
+    push(path: string, ...items: any[]): number;
+    /**
+     * Remove the last item from an array and notify interested parties of the change.
+     * 
+     * @param path Path to the array to modify.
+     * @return Item that was removed. 
+     */
+    pop(path: string): any;
+    /**
+     * Works similarly to Array.prototype.splice() but also notifies interested parties of the changes.
+     * 
+     * @param path Path to the array to modify.
+     * @param start Index at which to start modifying the array.
+     * @param deleteCount Number of items to remove starting from `start`.
+     * @param items One or more items to insert starting from `start`.
+     * @return Items that were removed from the array.
+     */
+    splice(path: string, start: number, deleteCount: number, ...items: any[]): any[];
+    /**
+     * Remove the first item from an array and notify interested parties of the change.
+     *
+     * @param path Path to the array to modify.
+     * @return Item that was removed from the array.
+     */
+    shift(path: string): any;
+    /**
+     * Add items to the beginning of an array and notify interested parties of the change.
+     * 
+     * @param path Path to the array to modify.
+     * @param items Items to add to the array.
+     * @return New length of the array after the items are added.
+     */
+    unshift(path: string, ...items: any[]): number;
   }
 
   interface ClassList {
