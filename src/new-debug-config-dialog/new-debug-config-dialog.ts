@@ -1,8 +1,8 @@
 import * as pd from 'polymer-ts-decorators';
 import { Disposable, Emitter } from 'event-kit';
-import addDisposableListener from '../lib/disposable-dom-event-listener';
-import { IDebugConfig } from '../lib/debug-engine';
-import * as debugWorkbench from '../lib/debug-workbench';
+import addDisposableListener from '../disposable-dom-event-listener';
+import { IDebugConfig } from '../debug-engine';
+import * as debugWorkbench from '../debug-workbench';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;

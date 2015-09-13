@@ -1,6 +1,6 @@
 import * as pd from 'polymer-ts-decorators';
-import { IDebugConfigElementBehavior, IDebugConfig } from '../lib/debug-engine';
-import * as debugWorkbench from '../lib/debug-workbench';
+import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
+import * as debugWorkbench from '../debug-workbench';
 import { Disposable, Emitter } from 'event-kit';
 
 interface ILocalDOM {

@@ -1,7 +1,7 @@
 import * as pd from 'polymer-ts-decorators';
 import * as url from 'url';
 import * as path from 'path';
-import { setElementConstructor } from '../lib/debug-workbench';
+import { setElementConstructor } from '../debug-workbench';
 
 // TODO: Consider eliminating the dependency on Polymer, this element is very simple and doesn't
 //       really need any of the features Polymer provides.

@@ -3,9 +3,9 @@
 
 import * as pd from 'polymer-ts-decorators';
 import { CompositeDisposable, Disposable } from 'event-kit';
-import addDisposableListener from '../lib/disposable-dom-event-listener';
-import * as debugWorkbench from '../lib/debug-workbench';
-import { IDebugSession } from '../lib/debug-engine'
+import addDisposableListener from '../disposable-dom-event-listener';
+import * as debugWorkbench from '../debug-workbench';
+import { IDebugSession } from '../debug-engine'
 
 interface ILocalDOM {
   startButton: PolymerElements.PaperIconButton;

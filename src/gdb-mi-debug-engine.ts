@@ -5,7 +5,7 @@
 
 import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
 import { IDebugEngineProvider } from './debug-engine-provider';
-import DebugConfigElement from '../debug-configuration/debug-configuration';
+import DebugConfigElement from './debug-configuration/debug-configuration';
 
 interface IGdbMiDebugConfig extends IDebugConfig {
   debuggerType?: string;

@@ -7,6 +7,7 @@ module.exports = function(grunt) {
       options: {
         baseDir: './',
         name: 'debug-workbench-core-components',
+        main: 'debug-workbench-core-components/index',
         out: './index.d.ts',
         excludes: [
           'typings/**',
@@ -16,18 +17,14 @@ module.exports = function(grunt) {
       },
       default: {
         src: [
-          'debug-configuration/debug-configuration.ts',
-          'debug-toolbar/debug-toolbar.ts',
-          'file-input/file-input.ts',
-          'new-debug-config-dialog/new-debug-config-dialog.ts',
-          'register-element/register-element.ts',
-          'lib/element-factory.ts'
+          'src/index.ts'
         ]
       }
     },
     'tsc': {
       options: {
-        tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc')
+        tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc'),
+        project: './src'
       },
       default: {}
     },
@@ -52,7 +49,7 @@ module.exports = function(grunt) {
         },
         files: {
           // output: input
-          'dependencies_bundle.html': 'dependencies.html'
+          './lib/dependencies_bundle.html': './src/dependencies.html'
         }
       }
     }

@@ -12,6 +12,8 @@
   "engines": {
     "node": ">=0.12.0"
   },
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "typescript": {
     "definitions": [
       "typings/polymer-elements/index.d.ts"
