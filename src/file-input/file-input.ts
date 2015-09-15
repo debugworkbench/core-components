@@ -11,7 +11,7 @@ export class FileInputElement {
   @pd.property({ type: String })
   inputLabel: string;
   
-  @pd.property({ type: String })
+  @pd.property({ type: String, notify: true })
   filePath: string;
     
   openBrowseDialog(): void {
