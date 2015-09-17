@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Config 1",
+    "engine": "gdb-mi"
+  },
+  {
+    "name": "Config 2",
+    "engine": "gdb-mi"
+  },
+  {
+    "name": "Config 3",
+    "engine": "gdb-mi"
+  }
+]
