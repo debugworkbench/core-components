@@ -5,6 +5,24 @@ export interface IDebugConfigRenameInfo {
     oldName: string;
 }
 /**
+ * Saves and loads debug configs.
+ */
+export interface IDebugConfigLoader {
+    canRead(): Promise<boolean>;
+    read(): Promise<Array<IDebugConfig>>;
+    write(configs: IDebugConfig[]): Promise<void>;
+}
+/**
+ * Saves and loads debug configs from a file.
+ */
+export declare class DebugConfigFileLoader implements IDebugConfigLoader {
+    private configPath;
+    constructor(configPath: string);
+    canRead(): Promise<boolean>;
+    read(): Promise<Array<IDebugConfig>>;
+    write(configs: IDebugConfig[]): Promise<void>;
+}
+/**
  * Manages access to debug configs.
  *
  * Debug configs are saved to a single file stored at the path passed to the constructor.
@@ -12,13 +30,13 @@ export interface IDebugConfigRenameInfo {
  * replace the existing config).
  */
 export default class DebugConfigManager {
-    private configPath;
+    private loader;
     /** Original unmodified configs, should always be kept in sync with what's actually on disk. */
     private debugConfigs;
     /** Copies of original configs, these contain changes that may be saved to disk or discared. */
     private pendingChanges;
     private emitter;
-    constructor(configPath: string);
+    constructor(loader: IDebugConfigLoader);
     /** Add a function that should be called after a new debug config is saved. */
     onDidAddConfig(callback: (addedConfig: IDebugConfig) => void): Disposable;
     /** Add a function that should be called after a debug config is permanently removed. */
@@ -72,7 +90,4 @@ export default class DebugConfigManager {
      * @return A promise that will be resolved once all configs have been loaded.
      */
     load(): Promise<void>;
-    private checkConfigFileExists();
-    private readFromDisk();
-    private writeToDisk(configs);
 }

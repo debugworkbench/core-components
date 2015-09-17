@@ -16,6 +16,58 @@ export interface IDebugConfigRenameInfo {
 }
 
 /**
+ * Saves and loads debug configs.
+ */
+export interface IDebugConfigLoader {
+  canRead(): Promise<boolean>;
+  read(): Promise<Array<IDebugConfig>>;
+  write(configs: IDebugConfig[]): Promise<void>;
+}
+
+/**
+ * Saves and loads debug configs from a file.
+ */
+export class DebugConfigFileLoader implements IDebugConfigLoader {
+  constructor(private configPath: string) {
+  }
+  
+  canRead(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      fs.access(this.configPath, fs.F_OK, (err) => {
+        resolve(err ? false : true);
+      });
+    });
+  }
+  
+  read(): Promise<Array<IDebugConfig>> {
+    return new Promise<string>((resolve, reject) => {
+      fs.readFile(this.configPath, 'utf8', (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    })
+    .then((data) => {
+      return JSON.parse(data)
+    });
+  }
+  
+  write(configs: IDebugConfig[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      fs.writeFile(this.configPath, JSON.stringify(configs, null, 2), { encoding: 'utf8' }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+}
+
+/**
  * Manages access to debug configs.
  * 
  * Debug configs are saved to a single file stored at the path passed to the constructor.
@@ -29,7 +81,7 @@ export default class DebugConfigManager {
   private pendingChanges: Map</*copy:*/IDebugConfig, /*original:*/IDebugConfig>;
   private emitter: Emitter;
   
-  constructor(private configPath: string) {
+  constructor(private loader: IDebugConfigLoader) {
     this.debugConfigs = [];
     this.pendingChanges = new Map<IDebugConfig, IDebugConfig>();
     this.emitter = new Emitter();
@@ -133,7 +185,7 @@ export default class DebugConfigManager {
       return configs;
     })
     .then((configs) => {
-      return this.writeToDisk(configs)
+      return this.loader.write(configs)
       .then(() => {
         this.debugConfigs = configs;
         this.discardChanges(debugConfig);
@@ -168,7 +220,7 @@ export default class DebugConfigManager {
         configs.splice(idx, 1); // remove the config
       }
       
-      return this.writeToDisk(configs)
+      return this.loader.write(configs)
       .then(() => {
         this.discardChanges(debugConfig);
         this.debugConfigs = configs;
@@ -188,50 +240,14 @@ export default class DebugConfigManager {
       // FIXME: throw an error if there are pending changes?
       this.pendingChanges.clear();
     })
-    .then(() => this.checkConfigFileExists())
-    .then((configFileExists) => {
-      if (configFileExists) {
-        return this.readFromDisk()
+    .then(() => this.loader.canRead())
+    .then((canRead) => {
+      if (canRead) {
+        return this.loader.read()
         .then((debugConfigs) => {
           this.debugConfigs = debugConfigs;
         })
       }
-    });
-  }
-
-  private checkConfigFileExists(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      fs.access(this.configPath, fs.F_OK, (err) => {
-        resolve(err ? false : true);
-      });
-    });
-  }
-  
-  private readFromDisk(): Promise<Array<IDebugConfig>> {
-    return new Promise<string>((resolve, reject) => {
-      fs.readFile(this.configPath, 'utf8', (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    })
-    .then((data) => {
-      return JSON.parse(data)
-    });
-  }
-  
-  // write out all the debug configs to disk
-  private writeToDisk(configs: IDebugConfig[]): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      fs.writeFile(this.configPath, JSON.stringify(configs, null, 2), { encoding: 'utf8' }, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
     });
   }
 }

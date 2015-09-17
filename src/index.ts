@@ -20,7 +20,7 @@ export {
 
 export * from './element-factory';
 export * from './debug-engine';
-export { default as DebugConfigManager } from './debug-config-manager';
+export { default as DebugConfigManager, DebugConfigFileLoader } from './debug-config-manager';
 import * as debugEngineProvider from './debug-engine-provider';
 export { debugEngineProvider };
 import * as debugWorkbench from './debug-workbench';

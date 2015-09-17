@@ -4,8 +4,8 @@ import { Disposable } from 'event-kit';
  * Base behavior of the DebugConfigurationElement.
  */
 export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
-    private debugConfig;
     private emitter;
+    private debugConfig;
     static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement>;
     created(): void;
     destroy(): void;
