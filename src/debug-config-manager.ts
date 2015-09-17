@@ -180,6 +180,9 @@ export default class DebugConfigManager {
           throw new Error(`Original config "${originalConfig.name}" not found.`);
         }
       } else { // new config
+        if (configs.indexOf(debugConfig) !== -1) {
+          throw new Error(`Config "${debugConfig.name}" has already been saved.`);
+        }
         configs.push(debugConfig);
       }
       return configs;

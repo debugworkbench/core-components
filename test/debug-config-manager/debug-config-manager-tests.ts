@@ -116,7 +116,7 @@ describe("DebugConfigManager", () => {
   }); // #modify
   
   describe("#save", () => {
-    it("stores a new config", () => {
+    it("saves a new config", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
         const manager = new DebugConfigManager(inMemLoader);
@@ -129,7 +129,7 @@ describe("DebugConfigManager", () => {
       })
     });
     
-    it("stores a modified config", () => {
+    it("saves a modified config", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
         const manager = new DebugConfigManager(inMemLoader);
@@ -144,22 +144,18 @@ describe("DebugConfigManager", () => {
       })
     });
     
-    it("doesn't store the same new config twice", () => {
+    it("throws an error when given a new config that has already been saved", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
         const manager = new DebugConfigManager(inMemLoader);
         return manager.save(newConfig)
         .then(() => {
-          expect(manager.getAll()).to.have.lengthOf(1);
-          return manager.save(newConfig);
-        })
-        .then(() => {
-          expect(manager.getAll()).to.have.lengthOf(1);
+          return expect(manager.save(newConfig)).to.be.rejected;
         });
-      })
+      });
     });
     
-    it("doesn't store the same modified config twice", () => {
+    it("throws an error when given a modified config that has already been saved", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
         const manager = new DebugConfigManager(inMemLoader);
@@ -167,9 +163,8 @@ describe("DebugConfigManager", () => {
         .then(() => {
           const configToModify = manager.modify(newConfig);
           return manager.save(configToModify)
-          .then(() => manager.save(configToModify))
           .then(() => {
-            expect(manager.getAll()).to.have.lengthOf(1);
+            return expect(manager.save(configToModify)).to.be.rejected;
           });
         });
       });
