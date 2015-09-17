@@ -23,10 +23,18 @@ module.exports = function(grunt) {
     },
     'tsc': {
       options: {
-        tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc'),
-        project: './src'
+        tscPath: path.resolve('node_modules', 'typescript', 'bin', 'tsc')
       },
-      default: {}
+      lib: {
+        options: {
+          project: './src'
+        }
+      },
+      test: {
+        options: {
+          project: './test'
+        }
+      }
     },
     'tsd': {
       lib: {
@@ -52,6 +60,16 @@ module.exports = function(grunt) {
           './lib/dependencies_bundle.html': './src/dependencies.html'
         }
       }
+    },
+    'mochaTest': {
+      test: {
+        options: {
+          reporter: 'spec',
+          quiet: false,
+          clearRequireCache: true
+        },
+        src: ['test/**/*.js']
+      }
     }
   });
 
@@ -59,6 +77,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-tsd');
   grunt.loadNpmTasks('dts-generator');
   grunt.loadNpmTasks('grunt-vulcanize');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('default', ['vulcanize']);
+  grunt.registerTask('run-tests', ['mochaTest']);
+  grunt.registerTask('test', ['tsc:lib', 'tsc:test', 'run-tests']);
 };
