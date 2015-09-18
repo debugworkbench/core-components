@@ -1,5 +1,6 @@
 import * as pd from 'polymer-ts-decorators';
 import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
+import { IGdbMiDebugConfig } from '../gdb-mi-debug-engine';
 import * as debugWorkbench from '../debug-workbench';
 import { Disposable, Emitter } from 'event-kit';
 
@@ -19,8 +20,10 @@ const CLOSED_EVENT = 'closed';
  */
 @pd.is('debug-configuration')
 export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
-  private debugConfig: IDebugConfig;
   private emitter: Emitter;
+  
+  @pd.property({ type: Object })
+  private debugConfig: IGdbMiDebugConfig;
   
   static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement> {
 	  return debugWorkbench.createElement((<any> DebugConfigurationElement.prototype).is, debugConfig);
@@ -39,7 +42,7 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
   
   /** Called after ready() with arguments passed to the element constructor function. */
   factoryImpl(debugConfig: IDebugConfig): void {
-    this.debugConfig = debugConfig;
+    this.debugConfig = <IGdbMiDebugConfig> debugWorkbench.debugConfigs.modify(debugConfig);
   }
   
   @pd.listener('dialog.iron-overlay-opened')
@@ -56,6 +59,8 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
     if (Polymer.dom(e).localTarget === $(this).dialog) {
       if (e.detail.confirmed) {
         debugWorkbench.debugConfigs.save(this.debugConfig);
+      } else {
+        debugWorkbench.debugConfigs.discardChanges(this.debugConfig);
       }
       this.emitter.emit(CLOSED_EVENT, e.detail);
     } else {
