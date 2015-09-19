@@ -3,9 +3,11 @@ import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
 import { IGdbMiDebugConfig } from '../gdb-mi-debug-engine';
 import * as debugWorkbench from '../debug-workbench';
 import { Disposable, Emitter } from 'event-kit';
+import { DebuggerType } from 'dbgmits';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;
+  debuggerTypes: PolymerElements.PaperMenu;
 }
 
 function $(element: any): ILocalDOM {
@@ -43,6 +45,7 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
   /** Called after ready() with arguments passed to the element constructor function. */
   factoryImpl(debugConfig: IDebugConfig): void {
     this.debugConfig = <IGdbMiDebugConfig> debugWorkbench.debugConfigs.modify(debugConfig);
+    $(this).debuggerTypes.select(this.debugConfig.debuggerType);
   }
   
   @pd.listener('dialog.iron-overlay-opened')
@@ -58,6 +61,7 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
   private onIronOverlayClosed(e: PolymerElements.IronOverlayClosedEvent): void {
     if (Polymer.dom(e).localTarget === $(this).dialog) {
       if (e.detail.confirmed) {
+        this.debugConfig.debuggerType = Number($(this).debuggerTypes.selected);
         debugWorkbench.debugConfigs.save(this.debugConfig);
       } else {
         debugWorkbench.debugConfigs.discardChanges(this.debugConfig);

@@ -6,16 +6,16 @@
 import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
 import { IDebugEngineProvider } from './debug-engine-provider';
 import DebugConfigElement from './debug-configuration/debug-configuration';
+import { startDebugSession, DebuggerType } from 'dbgmits';
 
-interface IGdbMiDebugConfig extends IDebugConfig {
-  debuggerType?: string;
+export interface IGdbMiDebugConfig extends IDebugConfig {
+  debuggerType?: DebuggerType;
   debuggerPath?: string;
-}
-
-class GdbMiDebugSession implements IDebugSession {
-  end(): Promise<void> {
-    return Promise.resolve();
-  }
+  executable?: string;
+  executableArgs?: string;
+  targetIsRemote?: boolean;
+  host?: string;
+  port?: number;
 }
 
 // custom type guard function for IGdbMiDebugConfig
@@ -41,10 +41,15 @@ class GdbMiDebugEngine implements IDebugEngine {
         name: config.name,
         engine: config.engine,
         debuggerType: config.debuggerType,
-        debuggerPath: config.debuggerPath
+        debuggerPath: config.debuggerPath,
+        executable: config.executable,
+        executableArgs: config.executableArgs,
+        targetIsRemote: config.targetIsRemote,
+        host: config.host,
+        port: config.port
       };
     } else {
-      throw new Error(`Debug engine ${this.name} can't clone debug config for engine ${config.engine}.`);
+      throw new Error(`Debug engine "${this.name}"" can't clone debug config for engine "${config.engine}".`);
     }
   }
   
@@ -53,7 +58,27 @@ class GdbMiDebugEngine implements IDebugEngine {
   }
   
   startDebugSession(config: IDebugConfig): Promise<IDebugSession> {
-    return Promise.resolve(new GdbMiDebugSession());
+    const debugConfig = <IGdbMiDebugConfig> config;
+    return Promise.resolve().then(() => {
+      if (!isGdbMiDebugConfig(config)) {
+        throw new Error(`Debug config "${config.name}" can't be used with engine "${config.engine}".`);
+      }
+      return startDebugSession(debugConfig.debuggerType, debugConfig.debuggerPath);
+    })
+    .then((debugSession) => {
+      return debugSession.setExecutableFile(debugConfig.executable)
+      .then(() => {
+        if (debugConfig.executableArgs) {
+          return debugSession.setInferiorArguments(debugConfig.executableArgs);
+        }
+      })
+      .then(() => {
+        if (debugConfig.targetIsRemote) {
+          debugSession.connectToRemoteTarget(debugConfig.host, debugConfig.port)
+        }
+      })
+      .then(() => { return debugSession });
+    });
   }
 }
 
