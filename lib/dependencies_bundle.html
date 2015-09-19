@@ -1347,12 +1347,6 @@ Custom property | Description | Default
 @demo demo/index.html
 -->
 
-<script src="../bower_components/web-animations-js/web-animations-next-lite.min.js"></script>
-<!--
-`<opaque-animation>` makes an element `opacity:1` for the duration of the animation. Used to prevent
-webkit/safari from drawing a frame before an animation for elements that animate from display:none.
--->
-
 <!--
 `iron-overlay-backdrop` is a backdrop used by `Polymer.IronOverlayBehavior`. It should be a
 singleton.
@@ -1369,123 +1363,209 @@ Custom property | Description | Default
 `--iron-overlay-backdrop-opened`           | Mixin applied to `iron-overlay-backdrop` when it is displayed | {}
 -->
 
+<script src="../bower_components/web-animations-js/web-animations-next-lite.min.js"></script>
 <!--
-`<paper-dialog>` is a dialog with Material Design styling and optional animations when it is
-opened or closed. It provides styles for a header, content area, and an action area for buttons.
-You can use the `<paper-dialog-scrollable` element (in its own repository) if you need a scrolling
-content area. See `Polymer.PaperDialogBehavior` for specifics.
+`<opaque-animation>` makes an element `opacity:1` for the duration of the animation. Used to prevent
+webkit/safari from drawing a frame before an animation for elements that animate from display:none.
+-->
 
-For example, the following code implements a dialog with a header, scrolling content area and
-buttons.
+<!--
+`<iron-dropdown>` is a generalized element that is useful when you have
+hidden content (`.dropdown-content`) that is revealed due to some change in
+state that should cause it to do so.
 
-    <paper-dialog>
-      <h2>Header</h2>
-      <paper-dialog-scrollable>
-        Lorem ipsum...
-      </paper-dialog-scrollable>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm>Accept</paper-button>
-      </div>
-    </paper-dialog>
+Note that this is a low-level element intended to be used as part of other
+composite elements that cause dropdowns to be revealed.
+
+Examples of elements that might be implemented using an `iron-dropdown`
+include comboboxes, menubuttons, selects. The list goes on.
+
+The `<iron-dropdown>` element exposes attributes that allow the position
+of the `.dropdown-content` relative to the `.dropdown-trigger` to be
+configured.
+
+    <iron-dropdown horizontal-align="right" vertical-align="top">
+      <div class="dropdown-content">Hello!</div>
+    </iron-dropdown>
+
+In the above example, the `<div>` with class `.dropdown-content` will be
+hidden until the dropdown element has `opened` set to true, or when the `open`
+method is called on the element.
+
+@demo demo/index.html
+-->
+
+<!--
+`<fade-in-animation>` animates the opacity of an element from 0 to 1.
+
+Configuration:
+```
+{
+  name: 'fade-in-animation',
+  node: <node>
+  timing: <animation-timing>
+}
+```
+-->
+
+<!--
+`<fade-out-animation>` animates the opacity of an element from 1 to 0.
+
+Configuration:
+```
+{
+  name: 'fade-out-animation',
+  node: <node>
+  timing: <animation-timing>
+}
+```
+-->
+
+<!--
+`paper-menu-button` allows one to compose a designated "trigger" element with
+another element that represents "content", to create a dropdown menu that
+displays the "content" when the "trigger" is clicked.
+
+The child element with the class `dropdown-trigger` will be used as the
+"trigger" element. The child element with the class `dropdown-content` will be
+used as the "content" element.
+
+The `paper-menu-button` is sensitive to its content's `iron-select` events. If
+the "content" element triggers an `iron-select` event, the `paper-menu-button`
+will close automatically.
+
+Example:
+
+    <paper-menu-button>
+      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+      <paper-menu class="dropdown-content">
+        <paper-item>Share</paper-item>
+        <paper-item>Settings</paper-item>
+        <paper-item>Help</paper-item>
+      </paper-menu>
+    </paper-menu-button>
 
 ### Styling
 
-See the docs for `Polymer.PaperDialogBehavior` for the custom properties available for styling
-this element.
+The following custom properties and mixins are also available for styling:
 
-### Animations
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-menu-button-dropdown-background` | Background color of the paper-menu-button dropdown | `#fff`
+`--paper-menu-button` | Mixin applied to the paper-menu-button | `{}`
+`--paper-menu-button-disabled` | Mixin applied to the paper-menu-button when disabled | `{}`
+`--paper-menu-button-dropdown` | Mixin applied to the paper-menu-button dropdown | `{}`
 
-Set the `entry-animation` and/or `exit-animation` attributes to add an animation when the dialog
-is opened or closed. See the documentation in
-[PolymerElements/neon-animation](https://github.com/PolymerElements/neon-animation) for more info.
 
-For example:
-
-    <link rel="import" href="components/neon-animation/animations/scale-up-animation.html">
-    <link rel="import" href="components/neon-animation/animations/fade-out-animation.html">
-
-    <paper-dialog entry-animation="scale-up-animation"
-                  exit-animation="fade-out-animation">
-      <h2>Header</h2>
-      <div>Dialog body</div>
-    </paper-dialog>
-
-### Accessibility
-
-See the docs for `Polymer.PaperDialogBehavior` for accessibility features implemented by this
-element.
-
-@group Paper Elements
-@element paper-dialog
 @hero hero.svg
 @demo demo/index.html
 -->
 
 <!--
-`paper-toolbar` is a horizontal bar containing items that can be used for
-label, navigation, search and actions.  The items place inside the
-`paper-toolbar` are projected into a `class="horizontal center layout"` container inside of
-`paper-toolbar`'s Shadow DOM.  You can use flex attributes to control the items'
-sizing.
 
-Example:
+The `iron-icon` element displays an icon. By default an icon renders as a 24px square.
 
-    <paper-toolbar>
-      <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
-      <div class="title">Title</div>
-      <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
-    </paper-toolbar>
+Example using src:
 
-`paper-toolbar` has a standard height, but can made be taller by setting `tall`
-class on the `paper-toolbar`.  This will make the toolbar 3x the normal height.
+    <iron-icon src="star.png"></iron-icon>
 
-    <paper-toolbar class="tall">
-      <paper-icon-button icon="menu"></paper-icon-button>
-    </paper-toolbar>
+Example setting size to 32px x 32px:
 
-Apply `medium-tall` class to make the toolbar medium tall.  This will make the
-toolbar 2x the normal height.
+    <iron-icon class="big" src="big_star.png"></iron-icon>
 
-    <paper-toolbar class="medium-tall">
-      <paper-icon-button icon="menu"></paper-icon-button>
-    </paper-toolbar>
+    <style is="custom-style">
+      .big {
+        --iron-icon-height: 32px;
+        --iron-icon-width: 32px;
+      }
+    </style>
 
-When `tall`, items can pin to either the top (default), middle or bottom.  Use
-`middle` class for middle content and `bottom` class for bottom content.
+The iron elements include several sets of icons.
+To use the default set of icons, import `iron-icons.html` and use the `icon` attribute to specify an icon:
 
-    <paper-toolbar class="tall">
-      <paper-icon-button icon="menu"></paper-icon-button>
-      <div class="middle title">Middle Title</div>
-      <div class="bottom title">Bottom Title</div>
-    </paper-toolbar>
+    <link rel="import" href="/components/iron-icons/iron-icons.html">
 
-For `medium-tall` toolbar, the middle and bottom contents overlap and are
-pinned to the bottom.  But `middleJustify` and `bottomJustify` attributes are
-still honored separately.
+    <iron-icon icon="menu"></iron-icon>
 
-To make an element completely fit at the bottom of the toolbar, use `fit` along
-with `bottom`.
+To use a different built-in set of icons, import the specific `iron-icons/<iconset>-icons.html`, and
+specify the icon as `<iconset>:<icon>`. For example, to use a communication icon, you would
+use:
 
-    <paper-toolbar class="tall">
-      <div id="progressBar" class="bottom fit"></div>
-    </paper-toolbar>
+    <link rel="import" href="/components/iron-icons/communication-icons.html">
+
+    <iron-icon icon="communication:email"></iron-icon>
+
+You can also create custom icon sets of bitmap or SVG icons.
+
+Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
+
+    <iron-icon icon="fruit:cherry"></iron-icon>
+
+See [iron-iconset](#iron-iconset) and [iron-iconset-svg](#iron-iconset-svg) for more information about
+how to create a custom iconset.
+
+See [iron-icons](https://elements.polymer-project.org/elements/iron-icons?view=demo:demo/index.html) for the default set of icons.
+
 
 ### Styling
 
-The following custom properties and mixins are available for styling:
+The following custom properties are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-toolbar-background` | Toolbar background color     | `--default-primary-color`
-`--paper-toolbar-color`      | Toolbar foreground color     | `--text-primary-color`
-`--paper-toolbar`            | Mixin applied to the toolbar | `{}`
+`--iron-icon-width` | Width of the icon | `24px`
+`--iron-icon-height` | Height of the icon | `24px`
 
-### Accessibility
+@group Iron Elements
+@element iron-icon
+@demo demo/index.html
+@hero hero.svg
+@homepage polymer.github.io
+-->
 
-`<paper-toolbar>` has `role="toolbar"` by default. Any elements with the class `title` will
-be used as the label of the toolbar via `aria-labelledby`.
+<!--
+`paper-dropdown-menu` is similar to a native browser select element.
+`paper-dropdown-menu` works with selectable content. The currently selected
+item is displayed in the control. If no item is selected, the `label` is
+displayed instead.
 
+The child element with the class `dropdown-content` will be used as the dropdown
+menu. It could be a `paper-menu` or element that triggers `iron-select` when
+selecting its children.
+
+Example:
+
+    <paper-dropdown-menu label="Your favourite pastry">
+      <paper-menu class="dropdown-content">
+        <paper-item>Croissant</paper-item>
+        <paper-item>Donut</paper-item>
+        <paper-item>Financier</paper-item>
+        <paper-item>Madeleine</paper-item>
+      </paper-menu>
+    </paper-dropdown-menu>
+
+This example renders a dropdown menu with 4 options.
+
+### Styling
+
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-dropdown-menu` | A mixin that is applied to the element host | `{}`
+`--paper-dropdown-menu-disabled` | A mixin that is applied to the element host when disabled | `{}`
+`--paper-dropdown-menu-ripple` | A mixin that is applied to the internal ripple | `{}`
+`--paper-dropdown-menu-button` | A mixin that is applied to the internal menu button | `{}`
+`--paper-dropdown-menu-input` | A mixin that is applied to the internal paper input | `{}`
+`--paper-dropdown-menu-icon` | A mixin that is applied to the internal icon | `{}`
+
+You can also use any of the `paper-input-container` and `paper-menu-button`
+style mixins and custom properties to style the internal input and menu button
+respectively.
+
+@group Paper Elements
+@element paper-dropdown-menu
+@hero hero.svg
 @demo demo/index.html
 -->
 
@@ -1583,65 +1663,154 @@ This element has `role="listitem"` by default. Depending on usage, it may be mor
 -->
 
 <!--
+`<paper-dialog>` is a dialog with Material Design styling and optional animations when it is
+opened or closed. It provides styles for a header, content area, and an action area for buttons.
+You can use the `<paper-dialog-scrollable` element (in its own repository) if you need a scrolling
+content area. See `Polymer.PaperDialogBehavior` for specifics.
 
-The `iron-icon` element displays an icon. By default an icon renders as a 24px square.
+For example, the following code implements a dialog with a header, scrolling content area and
+buttons.
 
-Example using src:
-
-    <iron-icon src="star.png"></iron-icon>
-
-Example setting size to 32px x 32px:
-
-    <iron-icon class="big" src="big_star.png"></iron-icon>
-
-    <style is="custom-style">
-      .big {
-        --iron-icon-height: 32px;
-        --iron-icon-width: 32px;
-      }
-    </style>
-
-The iron elements include several sets of icons.
-To use the default set of icons, import `iron-icons.html` and use the `icon` attribute to specify an icon:
-
-    <link rel="import" href="/components/iron-icons/iron-icons.html">
-
-    <iron-icon icon="menu"></iron-icon>
-
-To use a different built-in set of icons, import the specific `iron-icons/<iconset>-icons.html`, and
-specify the icon as `<iconset>:<icon>`. For example, to use a communication icon, you would
-use:
-
-    <link rel="import" href="/components/iron-icons/communication-icons.html">
-
-    <iron-icon icon="communication:email"></iron-icon>
-
-You can also create custom icon sets of bitmap or SVG icons.
-
-Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
-
-    <iron-icon icon="fruit:cherry"></iron-icon>
-
-See [iron-iconset](#iron-iconset) and [iron-iconset-svg](#iron-iconset-svg) for more information about
-how to create a custom iconset.
-
-See [iron-icons](https://elements.polymer-project.org/elements/iron-icons?view=demo:demo/index.html) for the default set of icons.
-
+    <paper-dialog>
+      <h2>Header</h2>
+      <paper-dialog-scrollable>
+        Lorem ipsum...
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </paper-dialog>
 
 ### Styling
 
-The following custom properties are available for styling:
+See the docs for `Polymer.PaperDialogBehavior` for the custom properties available for styling
+this element.
+
+### Animations
+
+Set the `entry-animation` and/or `exit-animation` attributes to add an animation when the dialog
+is opened or closed. See the documentation in
+[PolymerElements/neon-animation](https://github.com/PolymerElements/neon-animation) for more info.
+
+For example:
+
+    <link rel="import" href="components/neon-animation/animations/scale-up-animation.html">
+    <link rel="import" href="components/neon-animation/animations/fade-out-animation.html">
+
+    <paper-dialog entry-animation="scale-up-animation"
+                  exit-animation="fade-out-animation">
+      <h2>Header</h2>
+      <div>Dialog body</div>
+    </paper-dialog>
+
+### Accessibility
+
+See the docs for `Polymer.PaperDialogBehavior` for accessibility features implemented by this
+element.
+
+@group Paper Elements
+@element paper-dialog
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<!--
+`paper-toggle-button` provides a ON/OFF switch that user can toggle the state
+by tapping or by dragging the switch.
+
+Example:
+
+    <paper-toggle-button></paper-toggle-button>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--iron-icon-width` | Width of the icon | `24px`
-`--iron-icon-height` | Height of the icon | `24px`
+`--paper-toggle-button-unchecked-bar-color` | Slider color when the input is not checked | `#000000`
+`--paper-toggle-button-unchecked-button-color` | Button color when the input is not checked | `--paper-grey-50`
+`--paper-toggle-button-unchecked-ink-color` | Selected/focus ripple color when the input is not checked | `--dark-primary-color`
+`--paper-toggle-button-checked-bar-color` | Slider button color when the input is checked | `--default-primary-color`
+`--paper-toggle-button-checked-button-color` | Button color when the input is checked | `--default-primary-color`
+`--paper-toggle-button-checked-ink-color` | Selected/focus ripple color when the input is checked | `--default-primary-color`
+`--paper-toggle-button-unchecked-bar` | Mixin applied to the slider when the input is not checked | `{}`
+`--paper-toggle-button-unchecked-button` | Mixin applied to the slider button when the input is not checked | `{}`
+`--paper-toggle-button-checked-bar` | Mixin applied to the slider when the input is checked | `{}`
+`--paper-toggle-button-checked-button` | Mixin applied to the slider button when the input is checked | `{}`
 
-@group Iron Elements
-@element iron-icon
-@demo demo/index.html
+@group Paper Elements
+@element paper-toggle-button
 @hero hero.svg
-@homepage polymer.github.io
+@demo demo/index.html
+-->
+
+<!--
+`paper-toolbar` is a horizontal bar containing items that can be used for
+label, navigation, search and actions.  The items place inside the
+`paper-toolbar` are projected into a `class="horizontal center layout"` container inside of
+`paper-toolbar`'s Shadow DOM.  You can use flex attributes to control the items'
+sizing.
+
+Example:
+
+    <paper-toolbar>
+      <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
+      <div class="title">Title</div>
+      <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
+    </paper-toolbar>
+
+`paper-toolbar` has a standard height, but can made be taller by setting `tall`
+class on the `paper-toolbar`.  This will make the toolbar 3x the normal height.
+
+    <paper-toolbar class="tall">
+      <paper-icon-button icon="menu"></paper-icon-button>
+    </paper-toolbar>
+
+Apply `medium-tall` class to make the toolbar medium tall.  This will make the
+toolbar 2x the normal height.
+
+    <paper-toolbar class="medium-tall">
+      <paper-icon-button icon="menu"></paper-icon-button>
+    </paper-toolbar>
+
+When `tall`, items can pin to either the top (default), middle or bottom.  Use
+`middle` class for middle content and `bottom` class for bottom content.
+
+    <paper-toolbar class="tall">
+      <paper-icon-button icon="menu"></paper-icon-button>
+      <div class="middle title">Middle Title</div>
+      <div class="bottom title">Bottom Title</div>
+    </paper-toolbar>
+
+For `medium-tall` toolbar, the middle and bottom contents overlap and are
+pinned to the bottom.  But `middleJustify` and `bottomJustify` attributes are
+still honored separately.
+
+To make an element completely fit at the bottom of the toolbar, use `fit` along
+with `bottom`.
+
+    <paper-toolbar class="tall">
+      <div id="progressBar" class="bottom fit"></div>
+    </paper-toolbar>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-toolbar-background` | Toolbar background color     | `--default-primary-color`
+`--paper-toolbar-color`      | Toolbar foreground color     | `--text-primary-color`
+`--paper-toolbar`            | Mixin applied to the toolbar | `{}`
+
+### Accessibility
+
+`<paper-toolbar>` has `role="toolbar"` by default. Any elements with the class `title` will
+be used as the label of the toolbar via `aria-labelledby`.
+
+@demo demo/index.html
 -->
 
 <!--
@@ -1694,144 +1863,6 @@ Custom property | Description | Default
 
 @group Paper Elements
 @element paper-icon-button
-@demo demo/index.html
--->
-
-<!--
-`<iron-dropdown>` is a generalized element that is useful when you have
-hidden content (`.dropdown-content`) that is revealed due to some change in
-state that should cause it to do so.
-
-Note that this is a low-level element intended to be used as part of other
-composite elements that cause dropdowns to be revealed.
-
-Examples of elements that might be implemented using an `iron-dropdown`
-include comboboxes, menubuttons, selects. The list goes on.
-
-The `<iron-dropdown>` element exposes attributes that allow the position
-of the `.dropdown-content` relative to the `.dropdown-trigger` to be
-configured.
-
-    <iron-dropdown horizontal-align="right" vertical-align="top">
-      <div class="dropdown-content">Hello!</div>
-    </iron-dropdown>
-
-In the above example, the `<div>` with class `.dropdown-content` will be
-hidden until the dropdown element has `opened` set to true, or when the `open`
-method is called on the element.
-
-@demo demo/index.html
--->
-
-<!--
-`<fade-in-animation>` animates the opacity of an element from 0 to 1.
-
-Configuration:
-```
-{
-  name: 'fade-in-animation',
-  node: <node>
-  timing: <animation-timing>
-}
-```
--->
-
-<!--
-`<fade-out-animation>` animates the opacity of an element from 1 to 0.
-
-Configuration:
-```
-{
-  name: 'fade-out-animation',
-  node: <node>
-  timing: <animation-timing>
-}
-```
--->
-
-<!--
-`paper-menu-button` allows one to compose a designated "trigger" element with
-another element that represents "content", to create a dropdown menu that
-displays the "content" when the "trigger" is clicked.
-
-The child element with the class `dropdown-trigger` will be used as the
-"trigger" element. The child element with the class `dropdown-content` will be
-used as the "content" element.
-
-The `paper-menu-button` is sensitive to its content's `iron-select` events. If
-the "content" element triggers an `iron-select` event, the `paper-menu-button`
-will close automatically.
-
-Example:
-
-    <paper-menu-button>
-      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
-      <paper-menu class="dropdown-content">
-        <paper-item>Share</paper-item>
-        <paper-item>Settings</paper-item>
-        <paper-item>Help</paper-item>
-      </paper-menu>
-    </paper-menu-button>
-
-### Styling
-
-The following custom properties and mixins are also available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-menu-button-dropdown-background` | Background color of the paper-menu-button dropdown | `#fff`
-`--paper-menu-button` | Mixin applied to the paper-menu-button | `{}`
-`--paper-menu-button-disabled` | Mixin applied to the paper-menu-button when disabled | `{}`
-`--paper-menu-button-dropdown` | Mixin applied to the paper-menu-button dropdown | `{}`
-
-
-@hero hero.svg
-@demo demo/index.html
--->
-
-<!--
-`paper-dropdown-menu` is similar to a native browser select element.
-`paper-dropdown-menu` works with selectable content. The currently selected
-item is displayed in the control. If no item is selected, the `label` is
-displayed instead.
-
-The child element with the class `dropdown-content` will be used as the dropdown
-menu. It could be a `paper-menu` or element that triggers `iron-select` when
-selecting its children.
-
-Example:
-
-    <paper-dropdown-menu label="Your favourite pastry">
-      <paper-menu class="dropdown-content">
-        <paper-item>Croissant</paper-item>
-        <paper-item>Donut</paper-item>
-        <paper-item>Financier</paper-item>
-        <paper-item>Madeleine</paper-item>
-      </paper-menu>
-    </paper-dropdown-menu>
-
-This example renders a dropdown menu with 4 options.
-
-### Styling
-
-The following custom properties and mixins are also available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-dropdown-menu` | A mixin that is applied to the element host | `{}`
-`--paper-dropdown-menu-disabled` | A mixin that is applied to the element host when disabled | `{}`
-`--paper-dropdown-menu-ripple` | A mixin that is applied to the internal ripple | `{}`
-`--paper-dropdown-menu-button` | A mixin that is applied to the internal menu button | `{}`
-`--paper-dropdown-menu-input` | A mixin that is applied to the internal paper input | `{}`
-`--paper-dropdown-menu-icon` | A mixin that is applied to the internal icon | `{}`
-
-You can also use any of the `paper-input-container` and `paper-menu-button`
-style mixins and custom properties to style the internal input and menu button
-respectively.
-
-@group Paper Elements
-@element paper-dropdown-menu
-@hero hero.svg
 @demo demo/index.html
 -->
 
@@ -2359,287 +2390,6 @@ respectively.
 
 </dom-module>
 
-<dom-module id="paper-dialog" assetpath="../bower_components/paper-dialog/">
-
-  <link rel="import" type="css" href="../bower_components/paper-dialog-behavior/paper-dialog-common.css">
-
-  <template>
-    <content></content>
-  </template>
-
-</dom-module>
-
-<dom-module id="paper-toolbar" assetpath="../bower_components/paper-toolbar/">
-
-  <style>
-    :host {
-      /* technical */
-      display: block;
-      position: relative;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-
-      /* size */
-      height: 64px;
-
-      background: var(--paper-toolbar-background, --default-primary-color);
-      color: var(--paper-toolbar-color, --text-primary-color);
-
-      @apply(--paper-toolbar);
-    }
-
-    :host(.animate) {
-      /* transition */
-      transition: height 0.18s ease-in;
-    }
-
-    :host(.medium-tall) {
-      height: 128px;
-    }
-
-    :host(.tall) {
-      height: 192px;
-    }
-
-    .toolbar-tools {
-      position: relative;
-      height: 64px;
-      padding: 0 16px;
-      pointer-events: none;
-    }
-
-    /*
-     * TODO: Where should media query breakpoints live so they can be shared between elements?
-     */
-
-    @media (max-width: 639px) {
-      :host {
-        height: 56px;
-      }
-
-      :host(.medium-tall) {
-        height: 112px;
-      }
-
-      :host(.tall) {
-        height: 168px;
-      }
-
-      .toolbar-tools {
-        height: 56px;
-      }
-    }
-
-    #topBar {
-      position: relative;
-    }
-
-    /* middle bar */
-    #middleBar {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-    }
-
-    :host(.tall) #middleBar,
-    :host(.medium-tall) #middleBar {
-      -webkit-transform: translateY(100%);
-      transform: translateY(100%);
-    }
-
-    /* bottom bar */
-    #bottomBar {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-
-    /*
-     * make elements (e.g. buttons) respond to mouse/touch events
-     *
-     * `.toolbar-tools` disables touch events so multiple toolbars can stack and not
-     * absorb events. All children must have pointer events re-enabled to work as
-     * expected.
-     */
-    .toolbar-tools > ::content > *:not([disabled]) {
-      pointer-events: auto;
-    }
-
-    .toolbar-tools > ::content .title {
-      @apply(--paper-font-title);
-      @apply(--layout-flex);
-
-      pointer-events: none;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-
-      /*
-       * Polymer/polymer/issues/1525
-       * --paper-font-title defines a `font-weight`
-       * let's override its value, but we need `important!`
-       * because all mixins are resolved in rule's selector that has higher precedence
-       * than the current selector.
-       */
-      font-weight: 400 !important;
-    }
-
-    /**
-     * TODO: Refactor these selectors
-     * Work in progress.
-     */
-    .toolbar-tools > ::content paper-icon-button[icon=menu] {
-      margin-right: 24px;
-    }
-
-    .toolbar-tools > ::content > .title,
-    .toolbar-tools > ::content[select=".middle"] > .title,
-    .toolbar-tools > ::content[select=".bottom"] > .title {
-      margin-left: 56px;
-    }
-
-    .toolbar-tools > ::content > paper-icon-button + .title,
-    .toolbar-tools > ::content[select=".middle"] paper-icon-button + .title,
-    .toolbar-tools > ::content[select=".bottom"] paper-icon-button + .title {
-      margin-left: 0;
-    }
-
-    .toolbar-tools > ::content > .fit {
-      position: absolute;
-      top: auto;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: auto;
-      margin: 0;
-    }
-
-  </style>
-
-  <template>
-
-    <div id="topBar" class$="[[_computeBarClassName(justify)]]">
-      <content select=":not(.middle):not(.bottom)"></content>
-    </div>
-
-    <div id="middleBar" class$="[[_computeBarClassName(middleJustify)]]">
-      <content select=".middle"></content>
-    </div>
-
-    <div id="bottomBar" class$="[[_computeBarClassName(bottomJustify)]]">
-      <content select=".bottom"></content>
-    </div>
-
-  </template>
-
-</dom-module>
-
-<dom-module id="paper-menu" assetpath="../bower_components/paper-menu/">
-  <link rel="import" type="css" href="../bower_components/paper-menu/paper-menu-shared.css">
-
-  <style>
-    :host {
-      display: block;
-      padding: 8px 0;
-
-      background: var(--paper-menu-background-color, --primary-background-color);
-      color: var(--paper-menu-color, --primary-text-color);
-
-      @apply(--paper-menu);
-    }
-  </style>
-  <template>
-
-    <div class="selectable-content">
-      <content></content>
-    </div>
-
-  </template>
-
-</dom-module>
-
-<dom-module id="paper-item" assetpath="../bower_components/paper-item/">
-
-  <link rel="import" type="css" href="../bower_components/paper-item/paper-item-shared.css">
-
-  <style>
-
-    :host {
-      @apply(--layout-horizontal);
-      @apply(--layout-center);
-      @apply(--paper-font-subhead);
-
-      @apply(--paper-item);
-    }
-
-  </style>
-
-  <template>
-    <content></content>
-  </template>
-
-</dom-module>
-
-<dom-module id="iron-icon" assetpath="../bower_components/iron-icon/">
-
-  <style>
-    :host {
-      @apply(--layout-inline);
-      @apply(--layout-center-center);
-      position: relative;
-
-      vertical-align: middle;
-
-      fill: currentcolor;
-
-      width: var(--iron-icon-width, 24px);
-      height: var(--iron-icon-height, 24px);
-    }
-  </style>
-
-  <template>
-    <iron-meta id="meta" type="iconset"></iron-meta>
-  </template>
-
-  </dom-module>
-<dom-module id="paper-icon-button" assetpath="../bower_components/paper-icon-button/">
-  <style>
-
-    :host {
-      display: inline-block;
-      position: relative;
-      padding: 8px;
-      outline: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      cursor: pointer;
-      z-index: 0;
-
-      @apply(--paper-icon-button);
-    }
-
-    :host #ink {
-      color: var(--paper-icon-button-ink-color, --primary-text-color);
-      opacity: 0.6;
-    }
-
-    :host([disabled]) {
-      color: var(--paper-icon-button-disabled-text, --disabled-text-color);
-      pointer-events: none;
-      cursor: auto;
-      @apply(--paper-icon-button-disabled);
-    }
-  </style>
-  <template>
-    <paper-ripple id="ink" class="circle" center=""></paper-ripple>
-    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
-  </template>
-</dom-module>
 <dom-module id="iron-dropdown" assetpath="../bower_components/iron-dropdown/">
   <style>
     :host {
@@ -2710,6 +2460,28 @@ respectively.
     </iron-dropdown>
   </template>
 </dom-module>
+<dom-module id="iron-icon" assetpath="../bower_components/iron-icon/">
+
+  <style>
+    :host {
+      @apply(--layout-inline);
+      @apply(--layout-center-center);
+      position: relative;
+
+      vertical-align: middle;
+
+      fill: currentcolor;
+
+      width: var(--iron-icon-width, 24px);
+      height: var(--iron-icon-height, 24px);
+    }
+  </style>
+
+  <template>
+    <iron-meta id="meta" type="iconset"></iron-meta>
+  </template>
+
+  </dom-module>
 <iron-iconset-svg name="icons" size="24">
 <svg><defs>
 <g id="3d-rotation"><path d="M7.52 21.48C4.25 19.94 1.91 16.76 1.55 13H.05C.56 19.16 5.71 24 12 24l.66-.03-3.81-3.81-1.33 1.32zm.89-6.52c-.19 0-.37-.03-.52-.08-.16-.06-.29-.13-.4-.24-.11-.1-.2-.22-.26-.37-.06-.14-.09-.3-.09-.47h-1.3c0 .36.07.68.21.95.14.27.33.5.56.69.24.18.51.32.82.41.3.1.62.15.96.15.37 0 .72-.05 1.03-.15.32-.1.6-.25.83-.44s.42-.43.55-.72c.13-.29.2-.61.2-.97 0-.19-.02-.38-.07-.56-.05-.18-.12-.35-.23-.51-.1-.16-.24-.3-.4-.43-.17-.13-.37-.23-.61-.31.2-.09.37-.2.52-.33.15-.13.27-.27.37-.42.1-.15.17-.3.22-.46.05-.16.07-.32.07-.48 0-.36-.06-.68-.18-.96-.12-.28-.29-.51-.51-.69-.2-.19-.47-.33-.77-.43C9.1 8.05 8.76 8 8.39 8c-.36 0-.69.05-1 .16-.3.11-.57.26-.79.45-.21.19-.38.41-.51.67-.12.26-.18.54-.18.85h1.3c0-.17.03-.32.09-.45s.14-.25.25-.34c.11-.09.23-.17.38-.22.15-.05.3-.08.48-.08.4 0 .7.1.89.31.19.2.29.49.29.86 0 .18-.03.34-.08.49-.05.15-.14.27-.25.37-.11.1-.25.18-.41.24-.16.06-.36.09-.58.09H7.5v1.03h.77c.22 0 .42.02.6.07s.33.13.45.23c.12.11.22.24.29.4.07.16.1.35.1.57 0 .41-.12.72-.35.93-.23.23-.55.33-.95.33zm8.55-5.92c-.32-.33-.7-.59-1.14-.77-.43-.18-.92-.27-1.46-.27H12v8h2.3c.55 0 1.06-.09 1.51-.27.45-.18.84-.43 1.16-.76.32-.33.57-.73.74-1.19.17-.47.26-.99.26-1.57v-.4c0-.58-.09-1.1-.26-1.57-.18-.47-.43-.87-.75-1.2zm-.39 3.16c0 .42-.05.79-.14 1.13-.1.33-.24.62-.43.85-.19.23-.43.41-.71.53-.29.12-.62.18-.99.18h-.91V9.12h.97c.72 0 1.27.23 1.64.69.38.46.57 1.12.57 1.99v.4zM12 0l-.66.03 3.81 3.81 1.33-1.33c3.27 1.55 5.61 4.72 5.96 8.48h1.5C23.44 4.84 18.29 0 12 0z"></path></g>
@@ -3044,6 +2816,384 @@ respectively.
       </div>
       <content id="content" select=".dropdown-content"></content>
     </paper-menu-button>
+  </template>
+</dom-module>
+<dom-module id="paper-menu" assetpath="../bower_components/paper-menu/">
+  <link rel="import" type="css" href="../bower_components/paper-menu/paper-menu-shared.css">
+
+  <style>
+    :host {
+      display: block;
+      padding: 8px 0;
+
+      background: var(--paper-menu-background-color, --primary-background-color);
+      color: var(--paper-menu-color, --primary-text-color);
+
+      @apply(--paper-menu);
+    }
+  </style>
+  <template>
+
+    <div class="selectable-content">
+      <content></content>
+    </div>
+
+  </template>
+
+</dom-module>
+
+<dom-module id="paper-item" assetpath="../bower_components/paper-item/">
+
+  <link rel="import" type="css" href="../bower_components/paper-item/paper-item-shared.css">
+
+  <style>
+
+    :host {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--paper-font-subhead);
+
+      @apply(--paper-item);
+    }
+
+  </style>
+
+  <template>
+    <content></content>
+  </template>
+
+</dom-module>
+
+<dom-module id="paper-dialog" assetpath="../bower_components/paper-dialog/">
+
+  <link rel="import" type="css" href="../bower_components/paper-dialog-behavior/paper-dialog-common.css">
+
+  <template>
+    <content></content>
+  </template>
+
+</dom-module>
+
+<dom-module id="paper-toggle-button" assetpath="../bower_components/paper-toggle-button/">
+  <template>
+
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      :host([disabled]) {
+        pointer-events: none;
+      }
+
+      :host(:focus) {
+        outline:none;
+      }
+
+      :host .toggle-bar {
+        background-color: var(--paper-toggle-button-unchecked-bar-color, #000000);
+        @apply(--paper-toggle-button-unchecked-bar);
+      }
+
+      :host .toggle-button {
+        background-color: var(--paper-toggle-button-unchecked-button-color, --paper-grey-50);
+        @apply(--paper-toggle-button-unchecked-button);
+      }
+
+      :host([checked]) .toggle-bar {
+        background-color: var(--paper-toggle-button-checked-bar-color, --default-primary-color);
+        @apply(--paper-toggle-button-checked-bar);
+      }
+
+      :host([checked]) .toggle-button {
+        background-color: var(--paper-toggle-button-checked-button-color, --default-primary-color);
+        @apply(--paper-toggle-button-checked-button);
+      }
+
+      :host .toggle-ink {
+        color: var(--paper-toggle-button-unchecked-ink-color, --primary-text-color);
+      }
+
+      :host([checked]) .toggle-ink {
+        color: var(--paper-toggle-button-checked-ink-color, --default-primary-color);
+      }
+
+      /* ID selectors should not be overriden by users. */
+
+      #toggleContainer {
+        position: relative;
+        width: 36px;
+        height: 14px;
+      }
+
+      #toggleBar {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+        pointer-events: none;
+        opacity: 0.4;
+        transition: background-color linear .08s;
+      }
+
+      :host([checked]) #toggleBar {
+        opacity: 0.5;
+      }
+
+      :host([disabled]) #toggleBar {
+        background-color: #000;
+        opacity: 0.12;
+      }
+
+      #toggleButton {
+        position: absolute;
+        top: -3px;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+        transition: -webkit-transform linear .08s, background-color linear .08s;
+        transition: transform linear .08s, background-color linear .08s;
+        will-change: transform;
+      }
+
+      #toggleButton.dragging {
+        -webkit-transition: none;
+        transition: none;
+      }
+
+      :host([checked]) #toggleButton {
+        -webkit-transform: translate(16px, 0);
+        transform: translate(16px, 0);
+      }
+
+      :host([disabled]) #toggleButton {
+        background-color: #bdbdbd;
+        opacity: 1;
+      }
+
+      #ink {
+        position: absolute;
+        top: -14px;
+        left: -14px;
+        width: 48px;
+        height: 48px;
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    </style>
+
+    <div id="toggleContainer">
+      <div id="toggleBar" class="toggle-bar"></div>
+      <div id="toggleButton" class="toggle-button">
+        <paper-ripple id="ink" class="toggle-ink circle" recenters=""></paper-ripple>
+      </div>
+    </div>
+
+  </template>
+
+  </dom-module>
+<dom-module id="paper-toolbar" assetpath="../bower_components/paper-toolbar/">
+
+  <style>
+    :host {
+      /* technical */
+      display: block;
+      position: relative;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+
+      /* size */
+      height: 64px;
+
+      background: var(--paper-toolbar-background, --default-primary-color);
+      color: var(--paper-toolbar-color, --text-primary-color);
+
+      @apply(--paper-toolbar);
+    }
+
+    :host(.animate) {
+      /* transition */
+      transition: height 0.18s ease-in;
+    }
+
+    :host(.medium-tall) {
+      height: 128px;
+    }
+
+    :host(.tall) {
+      height: 192px;
+    }
+
+    .toolbar-tools {
+      position: relative;
+      height: 64px;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    /*
+     * TODO: Where should media query breakpoints live so they can be shared between elements?
+     */
+
+    @media (max-width: 639px) {
+      :host {
+        height: 56px;
+      }
+
+      :host(.medium-tall) {
+        height: 112px;
+      }
+
+      :host(.tall) {
+        height: 168px;
+      }
+
+      .toolbar-tools {
+        height: 56px;
+      }
+    }
+
+    #topBar {
+      position: relative;
+    }
+
+    /* middle bar */
+    #middleBar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+
+    :host(.tall) #middleBar,
+    :host(.medium-tall) #middleBar {
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+
+    /* bottom bar */
+    #bottomBar {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    /*
+     * make elements (e.g. buttons) respond to mouse/touch events
+     *
+     * `.toolbar-tools` disables touch events so multiple toolbars can stack and not
+     * absorb events. All children must have pointer events re-enabled to work as
+     * expected.
+     */
+    .toolbar-tools > ::content > *:not([disabled]) {
+      pointer-events: auto;
+    }
+
+    .toolbar-tools > ::content .title {
+      @apply(--paper-font-title);
+      @apply(--layout-flex);
+
+      pointer-events: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      /*
+       * Polymer/polymer/issues/1525
+       * --paper-font-title defines a `font-weight`
+       * let's override its value, but we need `important!`
+       * because all mixins are resolved in rule's selector that has higher precedence
+       * than the current selector.
+       */
+      font-weight: 400 !important;
+    }
+
+    /**
+     * TODO: Refactor these selectors
+     * Work in progress.
+     */
+    .toolbar-tools > ::content paper-icon-button[icon=menu] {
+      margin-right: 24px;
+    }
+
+    .toolbar-tools > ::content > .title,
+    .toolbar-tools > ::content[select=".middle"] > .title,
+    .toolbar-tools > ::content[select=".bottom"] > .title {
+      margin-left: 56px;
+    }
+
+    .toolbar-tools > ::content > paper-icon-button + .title,
+    .toolbar-tools > ::content[select=".middle"] paper-icon-button + .title,
+    .toolbar-tools > ::content[select=".bottom"] paper-icon-button + .title {
+      margin-left: 0;
+    }
+
+    .toolbar-tools > ::content > .fit {
+      position: absolute;
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: auto;
+      margin: 0;
+    }
+
+  </style>
+
+  <template>
+
+    <div id="topBar" class$="[[_computeBarClassName(justify)]]">
+      <content select=":not(.middle):not(.bottom)"></content>
+    </div>
+
+    <div id="middleBar" class$="[[_computeBarClassName(middleJustify)]]">
+      <content select=".middle"></content>
+    </div>
+
+    <div id="bottomBar" class$="[[_computeBarClassName(bottomJustify)]]">
+      <content select=".bottom"></content>
+    </div>
+
+  </template>
+
+</dom-module>
+
+<dom-module id="paper-icon-button" assetpath="../bower_components/paper-icon-button/">
+  <style>
+
+    :host {
+      display: inline-block;
+      position: relative;
+      padding: 8px;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      z-index: 0;
+
+      @apply(--paper-icon-button);
+    }
+
+    :host #ink {
+      color: var(--paper-icon-button-ink-color, --primary-text-color);
+      opacity: 0.6;
+    }
+
+    :host([disabled]) {
+      color: var(--paper-icon-button-disabled-text, --disabled-text-color);
+      pointer-events: none;
+      cursor: auto;
+      @apply(--paper-icon-button-disabled);
+    }
+  </style>
+  <template>
+    <paper-ripple id="ink" class="circle" center=""></paper-ripple>
+    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
   </template>
 </dom-module>
 <iron-iconset-svg name="av" size="24">
