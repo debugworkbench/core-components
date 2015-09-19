@@ -1,6 +1,8 @@
 // Copyright (c) 2015 Vadim Macagon
 // MIT License, see LICENSE file for full terms.
 
+// iron-selector v1.0.2 <https://github.com/PolymerElements/iron-selector>
+
 /// <reference path="../polymer/polymer.d.ts" />
 
 declare namespace PolymerElements {
@@ -33,7 +35,7 @@ declare namespace PolymerElements {
 		 * by default the index of the item is used as the identifier, this can be changed by
 		 * setting [[attrForSelected]].
 		 */
-		selected: string;
+		selected: string | number;
 		/** Currently selected item (read-only). */
 		selectedItem: HTMLElement;
 		/** 

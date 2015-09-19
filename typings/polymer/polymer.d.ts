@@ -90,14 +90,18 @@ declare namespace polymer {
     $$(selector: string): HTMLElement;
     /**
      * Toggles a CSS class on/off.
+     * @param bool Set to `true` to add the CSS class to the element, `false` to remove it.
+     *              By default the CSS class is removed if present, and added if absent.   
      * @param node The node to toggle the CSS class on, defaults to `this`.
      */
-    toggleClass(cssClass: string, bool: boolean, node?: HTMLElement): void;
+    toggleClass(cssClass: string, bool?: boolean, node?: HTMLElement): void;
     /**
      * Toggles an attribute on/off.
+     * @param bool Set to `true` to add the attribute to the element, `false` to remove it.
+     *             By default the attribute is removed if present, and added if absent.
      * @param node The node to toggle the attribute on, defaults to `this`.
      */
-    toggleAttribute(attrName: string, bool: boolean, node?: HTMLElement): void;
+    toggleAttribute(attrName: string, bool?: boolean, node?: HTMLElement): void;
     /** Removes a CSS class from one node and adds it to another. */
     classFollows(cssClass: string, toElement: HTMLElement, fromElement: HTMLElement): void; // static
     /** Removes an attribute from one node and adds it to another. */
