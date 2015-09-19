@@ -42,6 +42,9 @@ Example:
         position: absolute;
         left: 0px;
         top: 0px;
+      }
+      
+      .invisible {
         visibility: hidden;
       }
       
@@ -51,7 +54,7 @@ Example:
       <paper-icon-button icon="refresh" alt="Restart Debugging" disabled></paper-icon-button>
       <div id="startStopButtons">
         <paper-icon-button id="startButton" icon="av:play-arrow" alt="Start Debugging"></paper-icon-button>
-        <paper-icon-button id="stopButton" icon="av:stop" alt="Stop Debugging"></paper-icon-button>
+        <paper-icon-button id="stopButton" icon="av:stop" alt="Stop Debugging" class="invisible"></paper-icon-button>
       </div>
       <paper-dropdown-menu id="configs" label="Configuration" no-label-float>
         <paper-menu class="dropdown-content">

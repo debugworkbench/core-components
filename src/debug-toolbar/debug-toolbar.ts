@@ -27,6 +27,8 @@ const START_DEBUGGING_EVENT = 'start-debugging';
 const STOP_DEBUGGING_EVENT = 'stop-debugging';
 const OPEN_SETTINGS_EVENT = 'open-settings';
 
+const INVISIBLE_CLASS = 'invisible';
+
 function getDebugConfigNames(): string[] {
   return debugWorkbench.debugConfigs.getAll().map((debugConfig) => debugConfig.name);
 }
@@ -98,8 +100,9 @@ export default class DebugToolbarElement {
     base(this).fire(START_DEBUGGING_EVENT);
     // TODO: factor this out into a start-debugging <configuration> command that can be dispatched
     // from here or from a yet to be implemented command terminal window.
-    // TODO: hide the start button, show the stop button
     Promise.resolve().then(() => {
+      $(this).startButton.toggleClass(INVISIBLE_CLASS);
+      $(this).stopButton.toggleClass(INVISIBLE_CLASS);
       const debugConfig = debugWorkbench.debugConfigs.get($(this).configs.selectedItemLabel);
       const debugEngine = debugWorkbench.getDebugEngine(debugConfig.engine);
       return debugEngine.startDebugSession(debugConfig/*, { console }*/);
@@ -118,7 +121,8 @@ export default class DebugToolbarElement {
       this.debugSession.end()
       .then(() => {
         this.debugSession = null;
-        // TODO: hide the stop button, show the start button
+        $(this).startButton.toggleClass(INVISIBLE_CLASS);
+        $(this).stopButton.toggleClass(INVISIBLE_CLASS);
       })
     }    
   }
