@@ -3,9 +3,8 @@
 
 // TODO: Move this into its own package
 
-import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
+import { IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
 import { IDebugEngineProvider } from './debug-engine-provider';
-import GdbMiDebugConfigElement from './gdb-mi-debug-config/gdb-mi-debug-config';
 import { startDebugSession, DebuggerType } from 'dbgmits';
 
 export interface IGdbMiDebugConfig extends IDebugConfig {
@@ -51,10 +50,6 @@ class GdbMiDebugEngine implements IDebugEngine {
     } else {
       throw new Error(`Debug engine "${this.name}"" can't clone debug config for engine "${config.engine}".`);
     }
-  }
-  
-  createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement> {
-    return GdbMiDebugConfigElement.create(config);
   }
   
   startDebugSession(config: IDebugConfig): Promise<IDebugSession> {

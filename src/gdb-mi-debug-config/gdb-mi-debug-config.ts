@@ -1,5 +1,6 @@
 import * as pd from 'polymer-ts-decorators';
-import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
+import { IDebugConfig } from '../debug-engine';
+import { IDebugConfigElementBehavior } from '../debug-config-element-factory';
 import { IGdbMiDebugConfig } from '../gdb-mi-debug-engine';
 import * as debugWorkbench from '../debug-workbench';
 import { Disposable, Emitter } from 'event-kit';

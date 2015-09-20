@@ -1,4 +1,5 @@
-import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
+import { IDebugConfig } from '../debug-engine';
+import { IDebugConfigElementBehavior } from '../debug-config-element-factory';
 import { Disposable } from 'event-kit';
 /**
  * An element that lets the user edit a debug configuration for the gdb-mi debug engine.
