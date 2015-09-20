@@ -9,9 +9,9 @@ export {
 } from './new-debug-config-dialog/new-debug-config-dialog';
 
 export {
-  default as DebugConfigElement,
-  IDebugConfigurationElement
-} from './debug-configuration/debug-configuration';
+  default as GdbMiDebugConfigElement,
+  IGdbMiDebugConfigElement
+} from './gdb-mi-debug-config/gdb-mi-debug-config';
 
 export {
   default as DebugToolbarElement,

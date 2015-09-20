@@ -6,19 +6,18 @@ Copyright (c) 2015 Vadim Macagon
 <link rel="import" href="../file-input/file-input.html">
 
 <!--
-An element that manages debug configurations, this includes creating new
-configurations, editing existing configurations, and activating configurations.
+An element that lets the user edit a debug configuration for the gdb-mi debug engine.
 
 Example:
 
-    <debug-configuration></debug-configuration>
+    <debug-workbench-gdb-mi-debug-config></debug-workbench-gdb-mi-debug-config>
 
 @group Debug Workbench
-@element debug-configuration
+@element debug-workbench-gdb-mi-debug-config
 @demo demo/index.html
 @hero hero.svg
 -->
-<dom-module id="debug-configuration">
+<dom-module id="debug-workbench-gdb-mi-debug-config">
   <template>
     <style>
       :host {
@@ -57,4 +56,4 @@ Example:
 
 </dom-module>
 
-<register-element path="./debug-configuration"></register-element>
+<register-element path="./gdb-mi-debug-config"></register-element>

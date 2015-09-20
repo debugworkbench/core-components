@@ -18,17 +18,17 @@ const OPENED_EVENT = 'opened';
 const CLOSED_EVENT = 'closed';
 
 /**
- * Base behavior of the DebugConfigurationElement.
+ * An element that lets the user edit a debug configuration for the gdb-mi debug engine.
  */
-@pd.is('debug-configuration')
-export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+@pd.is('debug-workbench-gdb-mi-debug-config')
+export default class GdbMiDebugConfigElement implements IDebugConfigElementBehavior {
   private emitter: Emitter;
   
   @pd.property({ type: Object })
   private debugConfig: IGdbMiDebugConfig;
   
-  static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement> {
-	  return debugWorkbench.createElement((<any> DebugConfigurationElement.prototype).is, debugConfig);
+  static create(debugConfig: IDebugConfig): Promise<IGdbMiDebugConfigElement> {
+	  return debugWorkbench.createElement((<any> GdbMiDebugConfigElement.prototype).is, debugConfig);
   }
   
   created(): void {
@@ -91,9 +91,9 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
   }
 }
 
-export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
+export interface IGdbMiDebugConfigElement extends GdbMiDebugConfigElement, HTMLElement {
 }
 
-export function register(): typeof DebugConfigurationElement {
-  return Polymer<typeof DebugConfigurationElement>(DebugConfigurationElement.prototype);
+export function register(): typeof GdbMiDebugConfigElement {
+  return Polymer<typeof GdbMiDebugConfigElement>(GdbMiDebugConfigElement.prototype);
 }

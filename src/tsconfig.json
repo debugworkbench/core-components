@@ -1,5 +1,4 @@
 {
-    "version": "1.5.3",
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
@@ -22,9 +21,9 @@
         "../typings/lib.es6.d.ts",
         "../typings/polymer-elements/index.d.ts",
         "../typings/thenify/thenify.d.ts",
-        "./debug-configuration/debug-configuration.ts",
         "./debug-toolbar/debug-toolbar.ts",
         "./file-input/file-input.ts",
+        "./gdb-mi-debug-config/gdb-mi-debug-config.ts",
         "./new-debug-config-dialog/new-debug-config-dialog.ts",
         "./register-element/register-element.ts",
         "debug-config-manager.ts",

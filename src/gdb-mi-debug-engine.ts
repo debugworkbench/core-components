@@ -5,7 +5,7 @@
 
 import { IDebugConfigElement, IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
 import { IDebugEngineProvider } from './debug-engine-provider';
-import DebugConfigElement from './debug-configuration/debug-configuration';
+import GdbMiDebugConfigElement from './gdb-mi-debug-config/gdb-mi-debug-config';
 import { startDebugSession, DebuggerType } from 'dbgmits';
 
 export interface IGdbMiDebugConfig extends IDebugConfig {
@@ -54,7 +54,7 @@ class GdbMiDebugEngine implements IDebugEngine {
   }
   
   createConfigElement(config: IDebugConfig): Promise<IDebugConfigElement> {
-    return DebugConfigElement.create(config);
+    return GdbMiDebugConfigElement.create(config);
   }
   
   startDebugSession(config: IDebugConfig): Promise<IDebugSession> {

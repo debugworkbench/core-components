@@ -1,12 +1,12 @@
 import { IDebugConfigElementBehavior, IDebugConfig } from '../debug-engine';
 import { Disposable } from 'event-kit';
 /**
- * Base behavior of the DebugConfigurationElement.
+ * An element that lets the user edit a debug configuration for the gdb-mi debug engine.
  */
-export default class DebugConfigurationElement implements IDebugConfigElementBehavior {
+export default class GdbMiDebugConfigElement implements IDebugConfigElementBehavior {
     private emitter;
     private debugConfig;
-    static create(debugConfig: IDebugConfig): Promise<IDebugConfigurationElement>;
+    static create(debugConfig: IDebugConfig): Promise<IGdbMiDebugConfigElement>;
     created(): void;
     destroy(): void;
     /** Called after ready() with arguments passed to the element constructor function. */
@@ -20,6 +20,6 @@ export default class DebugConfigurationElement implements IDebugConfigElementBeh
     open(): void;
     close(): void;
 }
-export interface IDebugConfigurationElement extends DebugConfigurationElement, HTMLElement {
+export interface IGdbMiDebugConfigElement extends GdbMiDebugConfigElement, HTMLElement {
 }
-export declare function register(): typeof DebugConfigurationElement;
+export declare function register(): typeof GdbMiDebugConfigElement;
