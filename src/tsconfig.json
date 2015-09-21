@@ -28,8 +28,6 @@
         "./register-element/register-element.ts",
         "debug-config-element-factory.ts",
         "debug-config-manager.ts",
-        "debug-engine.ts",
-        "debug-engine-provider.ts",
         "debug-workbench.ts",
         "disposable-dom-event-listener.ts",
         "gdb-mi-debug-engine.ts",

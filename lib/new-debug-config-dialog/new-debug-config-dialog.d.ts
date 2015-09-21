@@ -1,5 +1,5 @@
 import { Disposable } from 'event-kit';
-import { IDebugConfig } from '../debug-engine';
+import { IDebugConfig } from 'debug-engine';
 /**
  * A simple dialog that lets the user enter the name for a new debug config and select
  * the debug engine the new config will be used with.

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "dbgmits": "git://github.com/enlight/dbgmits",
+    "debug-engine": "git://github.com/debugworkbench/debug-engine",
     "event-kit": "^1.2.0",
     "polymer-ts-decorators": "enlight/polymer-ts-decorators",
     "thenify": "^3.1.0"

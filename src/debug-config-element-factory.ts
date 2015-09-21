@@ -2,7 +2,7 @@
 // MIT License, see LICENSE file for full terms.
 
 import { Disposable } from 'event-kit';
-import { IDebugConfig } from './debug-engine';
+import { IDebugConfig } from 'debug-engine';
 import GdbMiDebugConfigElement from './gdb-mi-debug-config/gdb-mi-debug-config';
 
 export interface IDebugConfigElementBehavior {

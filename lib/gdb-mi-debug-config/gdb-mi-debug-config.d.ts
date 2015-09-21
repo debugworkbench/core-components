@@ -1,4 +1,4 @@
-import { IDebugConfig } from '../debug-engine';
+import { IDebugConfig } from 'debug-engine';
 import { IDebugConfigElementBehavior } from '../debug-config-element-factory';
 import { Disposable } from 'event-kit';
 /**

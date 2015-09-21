@@ -1,5 +1,5 @@
 import { Disposable } from 'event-kit';
-import { IDebugConfig } from './debug-engine';
+import { IDebugConfig } from 'debug-engine';
 export interface IDebugConfigElementBehavior {
     onOpened(callback: () => void): Disposable;
     onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable;

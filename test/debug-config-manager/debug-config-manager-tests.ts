@@ -6,9 +6,9 @@ require('source-map-support').install();
 import * as chai from 'chai';
 import chaiAsPromised = require('chai-as-promised');
 import DebugConfigManager, { IDebugConfigLoader, DebugConfigFileLoader } from '../../lib/debug-config-manager';
-import { IDebugConfig, IDebugEngine } from '../../lib/debug-engine';
+import { IDebugConfig, IDebugEngine } from 'debug-engine';
 import { GdbMiDebugEngineProvider } from '../../lib/gdb-mi-debug-engine';
-import * as engineProvider from '../../lib/debug-engine-provider';
+import * as engineProvider from 'debug-engine';
 import * as path from 'path';
 
 chai.use(chaiAsPromised);

@@ -1,8 +1,8 @@
 // Copyright (c) 2015 Vadim Macagon
 // MIT License, see LICENSE file for full terms.
 
-import { IDebugConfig } from './debug-engine';
-import * as engineProvider from './debug-engine-provider';
+import { IDebugConfig } from 'debug-engine';
+import * as engineProvider from 'debug-engine';
 import * as fs from 'fs';
 import { Disposable, Emitter } from 'event-kit';
 

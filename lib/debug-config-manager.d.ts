@@ -1,4 +1,4 @@
-import { IDebugConfig } from './debug-engine';
+import { IDebugConfig } from 'debug-engine';
 import { Disposable } from 'event-kit';
 export interface IDebugConfigRenameInfo {
     newName: string;

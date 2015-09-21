@@ -1,5 +1,5 @@
 import { IElementFactory } from './element-factory';
-import { IDebugEngine } from './debug-engine';
+import { IDebugEngine } from 'debug-engine';
 import DebugConfigManager from './debug-config-manager';
 export declare var debugConfigs: DebugConfigManager;
 export interface IActivationConfig {

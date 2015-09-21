@@ -3,8 +3,7 @@
 
 // TODO: Move this into its own package
 
-import { IDebugConfig, IDebugSession, IDebugEngine } from './debug-engine';
-import { IDebugEngineProvider } from './debug-engine-provider';
+import { IDebugConfig, IDebugSession, IDebugEngine, IDebugEngineProvider } from 'debug-engine';
 import { startDebugSession, DebuggerType } from 'dbgmits';
 
 export interface IGdbMiDebugConfig extends IDebugConfig {

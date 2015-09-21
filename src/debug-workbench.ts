@@ -2,10 +2,10 @@
 // MIT License, see LICENSE file for full terms.
 
 import { IElementFactory } from './element-factory';
-import { IDebugConfig, IDebugEngine } from './debug-engine';
+import { IDebugConfig, IDebugEngine } from 'debug-engine';
 import { GdbMiDebugEngineProvider } from './gdb-mi-debug-engine';
 import DebugConfigManager from './debug-config-manager';
-import * as engineProvider from './debug-engine-provider';
+import * as engineProvider from 'debug-engine';
 
 var _config: IActivationConfig;
 export var debugConfigs: DebugConfigManager;

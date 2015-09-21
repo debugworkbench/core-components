@@ -1,5 +1,4 @@
-import { IDebugConfig, IDebugEngine } from './debug-engine';
-import { IDebugEngineProvider } from './debug-engine-provider';
+import { IDebugConfig, IDebugEngine, IDebugEngineProvider } from 'debug-engine';
 import { DebuggerType } from 'dbgmits';
 export interface IGdbMiDebugConfig extends IDebugConfig {
     debuggerType?: DebuggerType;
