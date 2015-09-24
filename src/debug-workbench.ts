@@ -3,7 +3,7 @@
 
 import { IElementFactory } from './element-factory';
 import { IDebugConfig, IDebugEngine } from 'debug-engine';
-import { GdbMiDebugEngineProvider } from './gdb-mi-debug-engine';
+import { GdbMiDebugEngineProvider } from 'gdb-mi-debug-engine';
 import DebugConfigManager from './debug-config-manager';
 import * as engineProvider from 'debug-engine';
 

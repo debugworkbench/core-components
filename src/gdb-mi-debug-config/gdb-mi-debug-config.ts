@@ -1,10 +1,9 @@
 import * as pd from 'polymer-ts-decorators';
 import { IDebugConfig } from 'debug-engine';
 import { IDebugConfigElementBehavior } from '../debug-config-element-factory';
-import { IGdbMiDebugConfig } from '../gdb-mi-debug-engine';
+import { IGdbMiDebugConfig, DebuggerType } from 'gdb-mi-debug-engine';
 import * as debugWorkbench from '../debug-workbench';
 import { Disposable, Emitter } from 'event-kit';
-import { DebuggerType } from 'dbgmits';
 
 interface ILocalDOM {
   dialog: PolymerElements.PaperDialog;

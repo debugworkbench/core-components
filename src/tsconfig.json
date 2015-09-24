@@ -30,7 +30,6 @@
         "debug-config-manager.ts",
         "debug-workbench.ts",
         "disposable-dom-event-listener.ts",
-        "gdb-mi-debug-engine.ts",
         "element-factory.ts",
         "index.ts"
     ]

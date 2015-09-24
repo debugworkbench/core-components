@@ -7,7 +7,7 @@ import * as chai from 'chai';
 import chaiAsPromised = require('chai-as-promised');
 import DebugConfigManager, { IDebugConfigLoader, DebugConfigFileLoader } from '../../lib/debug-config-manager';
 import { IDebugConfig, IDebugEngine } from 'debug-engine';
-import { GdbMiDebugEngineProvider } from '../../lib/gdb-mi-debug-engine';
+import { GdbMiDebugEngineProvider } from 'gdb-mi-debug-engine';
 import * as engineProvider from 'debug-engine';
 import * as path from 'path';
 
