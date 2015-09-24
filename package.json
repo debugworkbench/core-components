@@ -1,5 +1,5 @@
 {
-  "name": "debug-workbench-core-components",
+  "name": "@debug-workbench/core-components",
   "version": "0.1.0",
   "description": "Core Debug Workbench web components.",
   "keywords": [
