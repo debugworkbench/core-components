@@ -6,3 +6,4 @@ export * from './element-factory';
 export { default as DebugConfigManager, DebugConfigFileLoader } from './debug-config-manager';
 import * as debugWorkbench from './debug-workbench';
 export { debugWorkbench };
+export { IDebugConfig } from 'debug-engine';
