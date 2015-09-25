@@ -6,25 +6,31 @@ import { IDebugConfig, IDebugEngine } from 'debug-engine';
 import { GdbMiDebugEngineProvider } from 'gdb-mi-debug-engine';
 import DebugConfigManager from './debug-config-manager';
 import * as engineProvider from 'debug-engine';
+import { INotificationPresenter } from './notification-presenter';
 
 var _config: IActivationConfig;
 export var debugConfigs: DebugConfigManager;
+export var notifications: INotificationPresenter;
 
 export interface IActivationConfig {
   // FIXME: openDebugConfig should probably move into DebugConfigManager?
   openDebugConfig: (configName: string) => void;
   elementFactory: IElementFactory;
   debugConfigManager: DebugConfigManager;
+  notificationPresenter: INotificationPresenter;
 }
 
-export function activate(config: IActivationConfig) {
+export function activate(config: IActivationConfig): void {
   _config = config;
+  notifications = config.notificationPresenter;
   debugConfigs = config.debugConfigManager;
   engineProvider.register(new GdbMiDebugEngineProvider());
 }
 
 export function deactivate(): void {
   engineProvider.unregisterAll();
+  debugConfigs = null;
+  notifications = null;
   _config = null;
 }
 

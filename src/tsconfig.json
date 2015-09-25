@@ -31,6 +31,7 @@
         "debug-workbench.ts",
         "disposable-dom-event-listener.ts",
         "element-factory.ts",
+        "notification-presenter.ts",
         "index.ts"
     ]
 }

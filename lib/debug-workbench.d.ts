@@ -1,11 +1,14 @@
 import { IElementFactory } from './element-factory';
 import { IDebugEngine } from 'debug-engine';
 import DebugConfigManager from './debug-config-manager';
+import { INotificationPresenter } from './notification-presenter';
 export declare var debugConfigs: DebugConfigManager;
+export declare var notifications: INotificationPresenter;
 export interface IActivationConfig {
     openDebugConfig: (configName: string) => void;
     elementFactory: IElementFactory;
     debugConfigManager: DebugConfigManager;
+    notificationPresenter: INotificationPresenter;
 }
 export declare function activate(config: IActivationConfig): void;
 export declare function deactivate(): void;
