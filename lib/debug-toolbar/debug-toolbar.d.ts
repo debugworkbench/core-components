@@ -18,6 +18,8 @@ export default class DebugToolbarElement {
     private openSettings();
     private willSelectDebugConfig(e);
     private didSelectDebugConfig();
+    private _onInferiorDidExit(e);
+    private _showStartButton(show);
 }
 export interface IDebugToolbarElement extends DebugToolbarElement, HTMLElement {
 }

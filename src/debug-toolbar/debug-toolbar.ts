@@ -5,7 +5,9 @@ import * as pd from 'polymer-ts-decorators';
 import { CompositeDisposable, Disposable } from 'event-kit';
 import addDisposableListener from '../disposable-dom-event-listener';
 import * as debugWorkbench from '../debug-workbench';
-import { IDebugSession } from 'debug-engine'
+import {
+  IDebugSession, IInferiorDidExitEvent, DebugEngineError, ConnectionError
+} from 'debug-engine';
 
 interface ILocalDOM {
   startButton: PolymerElements.PaperIconButton;
@@ -31,6 +33,16 @@ const INVISIBLE_CLASS = 'invisible';
 
 function getDebugConfigNames(): string[] {
   return debugWorkbench.debugConfigs.getAll().map((debugConfig) => debugConfig.name);
+}
+
+function handleError(err: any): void {
+  if (err instanceof DebugEngineError) {
+    debugWorkbench.notifications.error(err.message, { stack: err.stack, detail: err.detail });
+  } else if (err instanceof Error) {
+    debugWorkbench.notifications.error(err.message, { stack: err.stack });
+  } else {
+    debugWorkbench.notifications.error(err.toString());
+  }
 }
 
 @pd.is('debug-workbench-debug-toolbar')
@@ -101,15 +113,23 @@ export default class DebugToolbarElement {
     // TODO: factor this out into a start-debugging <configuration> command that can be dispatched
     // from here or from a yet to be implemented command terminal window.
     Promise.resolve().then(() => {
-      $(this).startButton.toggleClass(INVISIBLE_CLASS);
-      $(this).stopButton.toggleClass(INVISIBLE_CLASS);
+      this._showStartButton(false);
       const debugConfig = debugWorkbench.debugConfigs.get($(this).configs.selectedItemLabel);
       const debugEngine = debugWorkbench.getDebugEngine(debugConfig.engine);
       return debugEngine.startDebugSession(debugConfig/*, { console }*/);
     })
     .then((debugSession) => {
       this.debugSession = debugSession;
+      const inferior = debugSession.inferior;
+      if (inferior) {
+        this.subscriptions.add(inferior.onDidExit(this._onInferiorDidExit.bind(this)));
+        return inferior.started ? inferior.resume() : inferior.start();
+      }
       // TODO: enable the restart, step in/out/over buttons
+    })
+    .catch((err) => {
+      handleError(err);
+      this.stopDebugging();
     });
   }
   
@@ -121,9 +141,11 @@ export default class DebugToolbarElement {
       this.debugSession.end()
       .then(() => {
         this.debugSession = null;
-        $(this).startButton.toggleClass(INVISIBLE_CLASS);
-        $(this).stopButton.toggleClass(INVISIBLE_CLASS);
+        this._showStartButton(true);
       })
+      .catch((err) => {
+        handleError(err);
+      });
     }    
   }
   
@@ -151,6 +173,15 @@ export default class DebugToolbarElement {
   @pd.listener('configs.selected-item-changed')
   private didSelectDebugConfig(): void {
     // TODO: notify anyone that cares that the current debug config changed 
+  }
+
+  private _onInferiorDidExit(e: IInferiorDidExitEvent): void {
+    this.stopDebugging();
+  }
+  
+  private _showStartButton(show: boolean): void {
+    $(this).startButton.toggleClass(INVISIBLE_CLASS, !show);
+    $(this).stopButton.toggleClass(INVISIBLE_CLASS, show);
   }
 }
 
