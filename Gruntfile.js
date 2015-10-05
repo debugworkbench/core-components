@@ -109,5 +109,5 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint', 'tslint']);
   grunt.registerTask('default', ['vulcanize']);
   grunt.registerTask('run-tests', ['mochaTest']);
-  grunt.registerTask('test', ['tsc:lib', 'tsc:test', 'run-tests']);
+  grunt.registerTask('test', ['tsc:lib', 'tsc:test', 'run-tests']);  
 };

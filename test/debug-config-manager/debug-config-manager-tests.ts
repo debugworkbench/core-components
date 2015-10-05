@@ -16,15 +16,15 @@ var expect = chai.expect;
 
 class DebugConfigTestLoader implements IDebugConfigLoader {
   private configs: IDebugConfig[];
-  
+
   canRead(): Promise<boolean> {
     return Promise.resolve(true);
   }
-  
+
   read(): Promise<Array<IDebugConfig>> {
     return Promise.resolve(this.configs);
   }
-  
+
   write(configs: IDebugConfig[]): Promise<void> {
     return Promise.resolve().then(() => {
       this.configs = configs;
@@ -41,20 +41,20 @@ class UnreadableConfigLoader extends DebugConfigTestLoader {
 describe("DebugConfigManager", () => {
   let inMemLoader: DebugConfigTestLoader;
   let debugEngine: IDebugEngine;
-  
+
   before(() => {
     engineProvider.register(new GdbMiDebugEngineProvider());
     debugEngine = engineProvider.getEngine('gdb-mi');
   });
-  
+
   beforeEach(() => {
     inMemLoader = new DebugConfigTestLoader();
   });
-  
+
   after(() => {
     engineProvider.unregisterAll();
   });
-    
+
   describe("#load", () => {
     it("loads nothing if the config file doesn't exist", () => {
       let manager: DebugConfigManager;
@@ -66,7 +66,7 @@ describe("DebugConfigManager", () => {
       .then(() => manager.getAll())
       .then((configs) => { expect(configs).to.have.lengthOf(0); });
     });
-    
+
     it("loads a non-empty config file", () => {
       let manager: DebugConfigManager;
       return Promise.resolve().then(() => {
@@ -78,7 +78,7 @@ describe("DebugConfigManager", () => {
       .then((configs) => { expect(configs).to.have.lengthOf(3); });
     });
   }); // #load
-  
+
   describe("#modify", () => {
     it("doesn't clone a new config", () => {
       const newConfig = debugEngine.createConfig('Config 1');
@@ -87,7 +87,7 @@ describe("DebugConfigManager", () => {
       expect(configToModify).to.equal(newConfig);
       expect(manager.getAll()).to.have.lengthOf(0);
     });
-    
+
     it("does clone an existing config", () => {
       return Promise.resolve().then(() => {
         const config = debugEngine.createConfig('Config 1');
@@ -101,7 +101,7 @@ describe("DebugConfigManager", () => {
         });
       });
     });
-    
+
     it("throws an error when given a config that is already being modified", () => {
       return Promise.resolve().then(() => {
         const config = debugEngine.createConfig('Config 1');
@@ -114,7 +114,7 @@ describe("DebugConfigManager", () => {
       });
     });
   }); // #modify
-  
+
   describe("#save", () => {
     it("saves a new config", () => {
       return Promise.resolve().then(() => {
@@ -126,9 +126,9 @@ describe("DebugConfigManager", () => {
           expect(manager.getAll()).to.have.lengthOf(1);
           expect(manager.get(newConfig.name)).to.equal(newConfig);
         });
-      })
+      });
     });
-    
+
     it("saves a modified config", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
@@ -141,9 +141,9 @@ describe("DebugConfigManager", () => {
         .then(() => {
           expect(manager.getAll()).to.have.lengthOf(1);
         });
-      })
+      });
     });
-    
+
     it("throws an error when given a new config that has already been saved", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');
@@ -154,7 +154,7 @@ describe("DebugConfigManager", () => {
         });
       });
     });
-    
+
     it("throws an error when given a modified config that has already been saved", () => {
       return Promise.resolve().then(() => {
         const newConfig = debugEngine.createConfig('Config 1');

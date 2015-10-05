@@ -23,31 +23,31 @@ const CLOSED_EVENT = 'closed';
 @pd.is('debug-workbench-gdb-mi-debug-config')
 export default class GdbMiDebugConfigElement implements IDebugConfigElementBehavior {
   private emitter: Emitter;
-  
+
   @pd.property({ type: Object })
   private debugConfig: IGdbMiDebugConfig;
-  
+
   static create(debugConfig: IDebugConfig): Promise<IGdbMiDebugConfigElement> {
 	  return debugWorkbench.createElement((<any> GdbMiDebugConfigElement.prototype).is, debugConfig);
   }
-  
+
   created(): void {
     this.emitter = new Emitter();
   }
-  
+
   destroy(): void {
     if (this.emitter) {
       this.emitter.dispose();
       this.emitter = null;
     }
   }
-  
+
   /** Called after ready() with arguments passed to the element constructor function. */
   factoryImpl(debugConfig: IDebugConfig): void {
     this.debugConfig = <IGdbMiDebugConfig> debugWorkbench.debugConfigs.modify(debugConfig);
     $(this).debuggerTypes.select(this.debugConfig.debuggerType);
   }
-  
+
   @pd.listener('dialog.iron-overlay-opened')
   private onIronOverlayOpened(e: CustomEvent): void {
     if (Polymer.dom(e).localTarget === $(this).dialog) {
@@ -56,7 +56,7 @@ export default class GdbMiDebugConfigElement implements IDebugConfigElementBehav
       e.stopPropagation();
     }
   }
-  
+
   @pd.listener('dialog.iron-overlay-closed')
   private onIronOverlayClosed(e: PolymerElements.IronOverlayClosedEvent): void {
     if (Polymer.dom(e).localTarget === $(this).dialog) {
@@ -71,21 +71,21 @@ export default class GdbMiDebugConfigElement implements IDebugConfigElementBehav
       e.stopPropagation();
     }
   }
-  
+
   /** Add a function to be called when the dialog is opened. */
   onOpened(callback: () => void): Disposable {
     return this.emitter.on(OPENED_EVENT, callback);
   }
-  
+
   /** Add a function to be called when the dialog is closed. */
   onClosed(callback: (closingReason: PolymerElements.IClosingReason) => void): Disposable {
     return this.emitter.on(CLOSED_EVENT, callback);
   }
-  
+
   open(): void {
     $(this).dialog.open();
   }
-  
+
   close(): void {
     $(this).dialog.close();
   }

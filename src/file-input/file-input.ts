@@ -7,13 +7,13 @@ export class FileInputElement {
   get base(): polymer.Base {
     return <any> this;
   }
-  
+
   @pd.property({ type: String })
   inputLabel: string;
-  
+
   @pd.property({ type: String, notify: true })
   filePath: string;
-    
+
   openBrowseDialog(): void {
     // Apparently on OS X the open dialog shouldn't have a parent window
     const parentWindow = (process.platform !== 'darwin') ? remote.getCurrentWindow() : null;

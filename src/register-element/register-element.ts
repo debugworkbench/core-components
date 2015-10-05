@@ -5,7 +5,7 @@ import { setElementConstructor } from '../debug-workbench';
 
 // TODO: Consider eliminating the dependency on Polymer, this element is very simple and doesn't
 //       really need any of the features Polymer provides.
- 
+
 /** Custom element that loads and registers a custom element from a CommonJS module. */
 @pd.is('register-element')
 export class RegisterElementElement {
@@ -13,10 +13,10 @@ export class RegisterElementElement {
   get base(): polymer.Base {
     return <any> this;
   }
-  
+
   @pd.property({ type: String })
   path: string;
-  
+
   ready(): void {
     if (this.path) {
       // get the absolute path of the document this tag was found in
@@ -29,7 +29,7 @@ export class RegisterElementElement {
       // make it absolute
       let scriptPath =
         path.isAbsolute(this.path) ? this.path : path.resolve(path.dirname(basePath), this.path);
-            
+
       const elementScript = require(scriptPath);
       const elementConstructor = elementScript.register();
       setElementConstructor(elementConstructor.prototype.is, elementConstructor);

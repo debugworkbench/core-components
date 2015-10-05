@@ -49,33 +49,33 @@ function handleError(err: any): void {
 export default class DebugToolbarElement {
   private subscriptions: CompositeDisposable;
   private debugSession: IDebugSession;
-  
+
   @pd.property({ type: Array, value: getDebugConfigNames })
   private debugConfigs: string[];
-  
+
   static create(): Promise<IDebugToolbarElement> {
 	  return debugWorkbench.createElement((<any> DebugToolbarElement.prototype).is);
   }
-  
+
   /** Add a listener to be called when the Start button is pressed. */
   onStartButtonPressed(callback: EventListener): Disposable {
     return addDisposableListener(<any> this, START_DEBUGGING_EVENT, callback);
   }
-  
+
   /** Add a listener to be called when the Stop button is pressed. */
   onStopButtonPressed(callback: EventListener): Disposable {
     return addDisposableListener(<any> this, STOP_DEBUGGING_EVENT, callback);
   }
-  
+
   /** Add a listener to be called when the Settings button is pressed. */
   onSettingsButtonPressed(callback: EventListener): Disposable {
     return addDisposableListener(<any> this, OPEN_SETTINGS_EVENT, callback);
   }
-  
+
   created(): void {
     this.subscriptions = new CompositeDisposable();
   }
-  
+
   ready(): void {
     this.subscriptions.add(debugWorkbench.debugConfigs.onDidAddConfig(
       (addedConfig) => {
@@ -99,14 +99,14 @@ export default class DebugToolbarElement {
       }
     ));
   }
-  
+
   destroy(): void {
     if (this.subscriptions) {
       this.subscriptions.dispose();
       this.subscriptions = null;
     }
   }
-    
+
   @pd.listener('startButton.tap')
   private startDebugging(): void {
     base(this).fire(START_DEBUGGING_EVENT);
@@ -132,7 +132,7 @@ export default class DebugToolbarElement {
       this.stopDebugging();
     });
   }
-  
+
   @pd.listener('stopButton.tap')
   private stopDebugging(): void {
     base(this).fire(STOP_DEBUGGING_EVENT);
@@ -146,9 +146,9 @@ export default class DebugToolbarElement {
       .catch((err) => {
         handleError(err);
       });
-    }    
+    }
   }
-  
+
   @pd.listener('settingsButton.tap')
   private openSettings(): void {
     base(this).fire(OPEN_SETTINGS_EVENT);
@@ -156,7 +156,7 @@ export default class DebugToolbarElement {
       debugWorkbench.openDebugConfig($(this).configs.selectedItemLabel);
     }
   }
-  
+
   @pd.listener('configs.iron-activate')
   private willSelectDebugConfig(e: PolymerElements.IronActivateEvent): void {
     // when the user selects the 'New...' item in the configurations dropdown display a dialog
@@ -165,20 +165,20 @@ export default class DebugToolbarElement {
       // skip default selection logic so that 'New...' doesn't show up in the input element
       e.preventDefault();
       $(this).configs.close();
-      // when the config name is omitted the user will be prompted to create a new config 
+      // when the config name is omitted the user will be prompted to create a new config
       debugWorkbench.openDebugConfig();
     }
   }
-  
+
   @pd.listener('configs.selected-item-changed')
   private didSelectDebugConfig(): void {
-    // TODO: notify anyone that cares that the current debug config changed 
+    // TODO: notify anyone that cares that the current debug config changed
   }
 
   private _onInferiorDidExit(e: IInferiorDidExitEvent): void {
     this.stopDebugging();
   }
-  
+
   private _showStartButton(show: boolean): void {
     $(this).startButton.toggleClass(INVISIBLE_CLASS, !show);
     $(this).stopButton.toggleClass(INVISIBLE_CLASS, show);

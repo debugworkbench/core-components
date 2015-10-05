@@ -30,7 +30,7 @@ export interface IDebugConfigLoader {
 export class DebugConfigFileLoader implements IDebugConfigLoader {
   constructor(private configPath: string) {
   }
-  
+
   canRead(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       fs.access(this.configPath, fs.F_OK, (err) => {
@@ -38,7 +38,7 @@ export class DebugConfigFileLoader implements IDebugConfigLoader {
       });
     });
   }
-  
+
   read(): Promise<Array<IDebugConfig>> {
     return new Promise<string>((resolve, reject) => {
       fs.readFile(this.configPath, 'utf8', (err, data) => {
@@ -50,10 +50,10 @@ export class DebugConfigFileLoader implements IDebugConfigLoader {
       });
     })
     .then((data) => {
-      return JSON.parse(data)
+      return JSON.parse(data);
     });
   }
-  
+
   write(configs: IDebugConfig[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       fs.writeFile(this.configPath, JSON.stringify(configs, null, 2), { encoding: 'utf8' }, (err) => {
@@ -69,7 +69,7 @@ export class DebugConfigFileLoader implements IDebugConfigLoader {
 
 /**
  * Manages access to debug configs.
- * 
+ *
  * Debug configs are saved to a single file stored at the path passed to the constructor.
  * To modify a config, clone an existing one, modify the clone, then save the clone (this will
  * replace the existing config).
@@ -80,31 +80,31 @@ export default class DebugConfigManager {
   /** Copies of original configs, these contain changes that may be saved to disk or discared. */
   private pendingChanges: Map</*copy:*/IDebugConfig, /*original:*/IDebugConfig>;
   private emitter: Emitter;
-  
+
   constructor(private loader: IDebugConfigLoader) {
     this.debugConfigs = [];
     this.pendingChanges = new Map<IDebugConfig, IDebugConfig>();
     this.emitter = new Emitter();
   }
-  
+
   /** Add a function that should be called after a new debug config is saved. */
   onDidAddConfig(callback: (addedConfig: IDebugConfig) => void): Disposable {
     return this.emitter.on(DID_ADD_CONFIG_EVENT, callback);
   }
-  
+
   /** Add a function that should be called after a debug config is permanently removed. */
   onDidRemoveConfig(callback: (removedConfig: IDebugConfig) => void): Disposable {
     return this.emitter.on(DID_REMOVE_CONFIG_EVENT, callback);
   }
-  
+
   /** Add a function that should be called after a name change is saved. */
   onDidRenameConfig(callback: {({ newName, oldName }: IDebugConfigRenameInfo): void}): Disposable {
     return this.emitter.on(DID_RENAME_CONFIG_EVENT, callback);
   }
-  
+
   /**
    * Get a saved debug config with the given name.
-   * 
+   *
    * The returned config should be considered read-only, to modify a config call [[modify]].
    * @return A matching IDebugConfig, or null.
    */
@@ -116,7 +116,7 @@ export default class DebugConfigManager {
     }
     return null;
   }
-  
+
   /**
    * Get all saved debug configs.
    * The returned configs should be considered read-only, to modify a config call [[modify]].
@@ -124,11 +124,11 @@ export default class DebugConfigManager {
   getAll(): IDebugConfig[] {
     return this.debugConfigs;
   }
-  
+
   /**
    * Make a copy of a config for modification.
-   * 
-   * Once the returned config has been modified the changes can be saved to disk 
+   *
+   * Once the returned config has been modified the changes can be saved to disk
    * by calling [[save]], or discarded by calling [[discardChanges]].
    * @return A copy of the given config.
    */
@@ -140,7 +140,7 @@ export default class DebugConfigManager {
           throw new Error(`Debug config "${originalConfig.name}" is already being modified.`);
         }
       });
-      
+
       const copy = engineProvider.getEngine(debugConfig.engine).cloneConfig(debugConfig);
       this.pendingChanges.set(copy, debugConfig);
       return copy;
@@ -149,19 +149,19 @@ export default class DebugConfigManager {
       return debugConfig;
     }
   }
-  
+
   /**
    * Discard any modifications made to a config.
-   * 
+   *
    * @param debugConfig An unsaved config returned by [[modify]].
    */
   discardChanges(debugConfig: IDebugConfig): void {
     this.pendingChanges.delete(debugConfig);
   }
-  
+
   /**
    * Save a new or modified config.
-   * 
+   *
    * @param debugConfig A newly created config or one returned by [[modify]].
    * @return A promise that will be resolved once the change has been written to disk.
    */
@@ -200,14 +200,14 @@ export default class DebugConfigManager {
           }
         } else {
           this.emitter.emit(DID_ADD_CONFIG_EVENT, debugConfig);
-        }  
+        }
       });
     });
   }
-  
+
   /**
    * Permanently remove a config from memory and disk.
-   * 
+   *
    * @return A promise that will be resolved once the change has been written to disk.
    */
   remove(debugConfig: IDebugConfig): Promise<void> {
@@ -216,13 +216,13 @@ export default class DebugConfigManager {
       if (!originalConfig) {
         originalConfig = debugConfig;
       }
-      
+
       const configs = this.debugConfigs.slice(); // make a shallow copy
       const idx = configs.indexOf(originalConfig);
       if (idx > -1) {
         configs.splice(idx, 1); // remove the config
       }
-      
+
       return this.loader.write(configs)
       .then(() => {
         this.discardChanges(debugConfig);
@@ -231,10 +231,10 @@ export default class DebugConfigManager {
       });
     });
   }
-  
+
   /**
    * Load all configs from disk.
-   * 
+   *
    * @return A promise that will be resolved once all configs have been loaded.
    */
   load(): Promise<void> {
@@ -249,7 +249,7 @@ export default class DebugConfigManager {
         return this.loader.read()
         .then((debugConfigs) => {
           this.debugConfigs = debugConfigs;
-        })
+        });
       }
     });
   }

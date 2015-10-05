@@ -24,22 +24,22 @@ const CLOSED_EVENT = 'closed';
 @pd.is('debug-workbench-new-debug-config-dialog')
 export default class NewDebugConfigDialogElement {
   private emitter: Emitter;
-  
+
   static create(): Promise<INewDebugConfigDialogElement> {
 	  return debugWorkbench.createElement((<any> NewDebugConfigDialogElement.prototype).is);
   }
-  
+
   created(): void {
     this.emitter = new Emitter();
   }
-  
+
   destroy(): void {
     if (this.emitter) {
       this.emitter.dispose();
       this.emitter = null;
     }
   }
-  
+
   @pd.listener('dialog.iron-overlay-opened')
   private onIronOverlayOpened(e: CustomEvent): void {
     if (Polymer.dom(e).localTarget === $(this).dialog) {
@@ -48,7 +48,7 @@ export default class NewDebugConfigDialogElement {
       e.stopPropagation();
     }
   }
-  
+
   @pd.listener('dialog.iron-overlay-closed')
   private onIronOverlayClosed(e: PolymerElements.IronOverlayClosedEvent): void {
     if (Polymer.dom(e).localTarget === $(this).dialog) {
@@ -62,21 +62,21 @@ export default class NewDebugConfigDialogElement {
       e.stopPropagation();
     }
   }
-  
+
   /** Add a function to be called when the dialog is opened. */
   onOpened(callback: () => void): Disposable {
     return this.emitter.on(OPENED_EVENT, callback);
   }
-  
+
   /** Add a function to be called when the dialog is closed. */
   onClosed(callback: (debugConfig: IDebugConfig) => void): Disposable {
     return this.emitter.on(CLOSED_EVENT, callback);
   }
-  
+
   open(): void {
     $(this).dialog.open();
   }
-  
+
   close(): void {
     $(this).dialog.close();
   }
