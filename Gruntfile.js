@@ -48,6 +48,31 @@ module.exports = function(grunt) {
         }
       }
     },
+    'jshint': {
+      files: ['Gruntfile.js'],
+      options: {
+        // options here to override JSHint defaults
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
+        }
+      }
+    },
+    'tslint': {
+      errors: {
+        options: {
+          configuration: grunt.file.readJSON('conf/tslint.json')
+        },
+        files: {
+          src: [
+            'src/**/*.ts',
+            'test/**/*.ts'
+          ]
+        }
+      }
+    },
     'vulcanize': {
       default: {
         options: {
@@ -73,12 +98,15 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-tsc');
   grunt.loadNpmTasks('grunt-tsd');
+  grunt.loadNpmTasks('grunt-tslint');
   grunt.loadNpmTasks('dts-generator');
   grunt.loadNpmTasks('grunt-vulcanize');
   grunt.loadNpmTasks('grunt-mocha-test');
 
+  grunt.registerTask('lint', ['jshint', 'tslint']);
   grunt.registerTask('default', ['vulcanize']);
   grunt.registerTask('run-tests', ['mochaTest']);
   grunt.registerTask('test', ['tsc:lib', 'tsc:test', 'run-tests']);
