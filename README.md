@@ -1,6 +1,8 @@
-# core-components
-Core Debug Workbench web components shared by the various integrations. These components only work
-in Electron-based applications.
+# core-components (discontinued)
+Core Debug Workbench web components that were meant to be shared by the various integrations.
+However, development focus has now switched to a
+[standalone Electron-based application](https://github.com/debugworkbench/hydragon), and
+there are no longer any plans for any integration with the Atom or VSCode editors.
 
 Usage
 =====
